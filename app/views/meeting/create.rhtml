@@ -1,7 +1,7 @@
 <html>
   <head><title>Meeting Counter</title></head>
   <body>
-    <% error_messages_for 'meeting' %>
+    <%= error_messages_for 'meeting' %>
     <p>
     <% form_for :meeting, @meeting, :url => { :action => "save" } do |f| %>
     <p>Name: <%= f.text_field :name %></p>

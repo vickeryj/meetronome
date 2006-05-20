@@ -24,12 +24,15 @@
 
   </script>
   <p>
-    <% if @paused %>
-      <%= link_to "Resume", { :action => 'start' } %>
-    <% else %>
-      <%= link_to "Pause", { :action => 'stop' } %>
+    <% if @meeting.running? %>
+      <%= link_to "Stop Meeting", { :action => 'stop', :id => @meeting } %>
       <script type="text/javascript">
-        inc_totals_at_rate(40);
+        inc_totals_at_rate(<%= 3600000 / @meeting.cents_per_hour %>);
+      </script>
+    <% else %>
+      <script type="text/javascript"> 
+        document.getElementById("raw").firstChild.nodeValue = 
+        "$" + number_str(<%= @meeting.cost %>);
       </script>
     <% end %>
   </p>

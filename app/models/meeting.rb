@@ -5,16 +5,15 @@ composed_of :cost_per_hour, :class_name => "Money", :mapping => [%w(cents_per_ho
 
 
 def start
-  periods << Period.new
-  #not sure if the save is needed?
-  save
-  periods.last
+  period = Period.new
+  periods << period
+  period
 end
 
 def stop
-  periods.last.stopped_at = Time.now
-  save
-  periods.last
+  period = periods.last
+  period.stopped_at = Time.now
+  period.save
 end
 
 def running?
@@ -24,5 +23,28 @@ end
 def paused?
   !running?
 end
+
+def time_in_seconds
+  @total_time = 0
+  periods.each {
+    |p|
+    if not p.stopped_at.nil?
+      @total_time +=  (p.stopped_at - p.created_at )
+    else
+      @total_time += (Time.now - p.created_at)
+    end
+  }
+  @total_time
+end
+
+def cost
+  (time_in_seconds * cents_per_hour / 3600).round
+end
+
+##
+# validation
+##
+validates_presence_of :name
+validates_numericality_of :cents_per_hour
 
 end
