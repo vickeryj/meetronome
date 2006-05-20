@@ -7,23 +7,20 @@ class MeetingController < ApplicationController
   def save
     @meeting = Meeting.new(@params[:meeting])
     if (@meeting.save)
-      flash[:notice] = "New Meeting Created"
-      redirect_to :action => 'view'
+      @meeting.start
+      redirect_to :action => 'view', :id => @meeting
     else
-      render :action => 'edit'
+      render :action => 'create'
     end
   end
   
   def view
-  end
-
-  def start
-    @paused = false; 
-    render :action => 'view'
+    @meeting = Meeting.find(@params[:id])
   end
 
   def stop
-    @paused = true; 
-    render :action => 'view'
+    @meeting = Meeting.find(@params[:id])
+    @meeting.stop
+    redirect_to :action => 'view', :id => @meeting
   end
 end
