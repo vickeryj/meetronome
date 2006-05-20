@@ -1,0 +1,38 @@
+<html>
+  <head><title>meeting counter</title></head>
+  <body>
+  <p><div id="raw">0</div></p>
+  <script type="text/javascript">
+  var curamount=1;
+
+  function number_str (n) {
+    var x = n.toString ();
+    var l = x.length;
+    var res = x.substr(0, l-2) + "." + x.substr(l-2,l);
+    return res;
+  }
+
+  function inc_totals_at_rate(rate) {
+    curamount +=1;
+    // redisplay the raw total 
+    document.getElementById("raw").firstChild.nodeValue = 
+    "$" + number_str(curamount);
+
+    // run this function again 
+    setTimeout('inc_totals_at_rate('+rate+');', rate);
+  }
+
+  </script>
+  <p>
+    <% if @paused %>
+      <%= link_to "Resume", { :action => 'start' } %>
+    <% else %>
+      <%= link_to "Pause", { :action => 'stop' } %>
+      <script type="text/javascript">
+        inc_totals_at_rate(40);
+      </script>
+    <% end %>
+  </p>
+  
+  </body>
+</html>

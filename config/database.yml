@@ -13,7 +13,7 @@
 development:
   adapter: mysql
   database: mc
-  username: pdamer
+  username: vickeryj
   password:
   host: 127.0.0.1
 
