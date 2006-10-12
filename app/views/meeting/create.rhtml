@@ -5,7 +5,7 @@
     <p>
     <% form_for :meeting, @meeting, :url => { :action => "save" } do |f| %>
     <p>Name: <%= f.text_field :name %></p>
-    <p>Cost Per Hour: <%= f.text_field :cents_per_hour %></p>
+    <p>Cost: $<%= f.text_field :dollars_per_hour%> per hour</p>
     <p><input type="submit"/></p>
     <% end %>
     </p>

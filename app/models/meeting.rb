@@ -41,6 +41,14 @@ def cost
   (time_in_seconds * cents_per_hour / 3600).round
 end
 
+def dollars_per_hour=(dollars)
+  write_attribute(:cents_per_hour, (dollars.to_f*100).round)
+end
+
+def dollars_per_hour
+  read_attribute(cents_per_hour) ? read_attribute(cents_per_hour)/100 : nil
+end
+
 ##
 # validation
 ##
