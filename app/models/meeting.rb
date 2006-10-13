@@ -1,3 +1,14 @@
+# == Schema Information
+# Schema version: 2
+#
+# Table name: meetings
+#
+#  id             :integer(11)   not null, primary key
+#  name           :string(255)   
+#  cents_per_hour :integer(11)   
+#  currency       :string(255)   
+#
+
 require 'money'
 class Meeting < ActiveRecord::Base
 has_many :periods
@@ -12,8 +23,11 @@ end
 
 def stop
   period = periods.last
-  period.stopped_at = Time.now
-  period.save
+  #dont restop a stopped meeting
+  if period.stopped_at.nil? 
+    period.stopped_at = Time.now
+    period.save
+  end
 end
 
 def running?

@@ -2,8 +2,13 @@
   <head><title>meeting counter</title></head>
   <body>
   <p><div id="raw">0</div></p>
+  
+  <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
+  
+  
+  <!-- we should eventually move the javascript to public/javascripts/application.js and include that file in the layout.-->
   <script type="text/javascript">
-  var curamount=1;
+  var curamount=document.getElementById("startcost").firstChild.nodeValue;
 
   function number_str (n) {
     var x = n.toString ();
