@@ -5,34 +5,13 @@
   
   <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
   
-  
-  <!-- we should eventually move the javascript to public/javascripts/application.js and include that file in the layout.-->
-  <script type="text/javascript">
-  var curamount=document.getElementById("startcost").firstChild.nodeValue;
-
-  function number_str (n) {
-    var x = n.toString ();
-    var l = x.length;
-    var res = x.substr(0, l-2) + "." + x.substr(l-2,l);
-    return res;
-  }
-
-  function inc_totals_at_rate(rate) {
-    curamount +=1;
-    // redisplay the raw total 
-    document.getElementById("raw").firstChild.nodeValue = 
-    "$" + number_str(curamount);
-
-    // run this function again 
-    setTimeout('inc_totals_at_rate('+rate+');', rate);
-  }
-
-  </script>
   <p>
     <% if @meeting.running? %>
       <%= link_to "Stop Meeting", { :action => 'stop', :id => @meeting } %>
       <script type="text/javascript">
-        curamount=<%=@meeting.cost%>
+      //not sure if this should go here or not
+      startamount=0;
+        curamount=$("startcost").firstChild.nodeValue;
         inc_totals_at_rate(<%= 3600000 / @meeting.cents_per_hour %>);
       </script>
     <% else %>
@@ -43,5 +22,6 @@
     <% end %>
   </p>
   
+  <%= periodically_call_remote :url => { :action => "view", :id => @meeting } %>
   </body>
 </html>
