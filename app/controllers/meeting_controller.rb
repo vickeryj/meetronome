@@ -16,6 +16,13 @@ class MeetingController < ApplicationController
   
   def view
     @meeting = Meeting.find(@params[:id])
+    if request.xhr?
+      render :update do |page|
+             page.replace_html 'startcost', @meeting.cost.to_s
+      end
+      return
+    end
+    
   end
 
   def stop
