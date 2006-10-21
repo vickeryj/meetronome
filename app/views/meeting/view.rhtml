@@ -13,8 +13,9 @@
       //not sure if this should go here or not
       startamount=0;
         curamount=$("startcost").firstChild.nodeValue;
-        inc_totals_at_rate(<%= 3600000 / @meeting.cents_per_hour %>);
+        inc_totals_at_rate(<%= @meeting.cents_per_hour / 60 %>);
       </script>
+      <%= periodically_call_remote :url => { :action => "view", :id => @meeting } %>
     <% else %>
       <script type="text/javascript"> 
         document.getElementById("raw").firstChild.nodeValue = 
@@ -23,6 +24,5 @@
     <% end %>
   </p>
   
-  <%= periodically_call_remote :url => { :action => "view", :id => @meeting } %>
   </body>
 </html>

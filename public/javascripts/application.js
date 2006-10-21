@@ -8,14 +8,14 @@ function number_str (n) {
   return res;
 }
 
-//increment the total by 1 every rate thousandth of seconds
+//increment the total by "rate" times per minute
 function inc_totals_at_rate(rate) {
   //incrementing by more than 8 times per second eats cpu,
   //instead, we will increase by more than 1 penny, no more than
   //8 times per second
   var inc_by = 1;
-  while (rate < 125) {
-    rate *= 2;
+  while (480 < rate) {
+    rate /= 2;
     inc_by *= 2;
   }
   inc_totals_by_x_at_rate(inc_by,rate);
@@ -34,5 +34,5 @@ function inc_totals_by_x_at_rate(x,rate)  {
   "$" + number_str(curamount);
 
   // run this function again 
-  setTimeout('inc_totals_by_x_at_rate('+x+','+rate+');', rate);
+  setTimeout('inc_totals_by_x_at_rate('+x+','+rate+');', 60000/rate);
 }
