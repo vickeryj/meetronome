@@ -1,6 +1,7 @@
 <html>
-  <head><title>meeting counter</title></head>
+  <% content_for :title do%>meeting counter<% end %>
   <body>
+    <h1><%= @meeting.name %></h1>
   <p><div id="raw">0</div></p>
   
   <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
