@@ -12,12 +12,11 @@
       <script type="text/javascript">
       //not sure if this should go here or not
       startamount=0;
-        curamount=$("startcost").firstChild.nodeValue;
+        curamount=parseInt($("startcost").firstChild.nodeValue);
         //we could put this on the serverside??
         onerate = 3600000/<%= @meeting.cents_per_hour %>;
         inc = Math.ceil(1/(Math.exp(Math.log(onerate)-4)));
-        alert(inc);
-        alert(onerate*inc);
+        
         
         inc_totals_at_rate(onerate*inc, inc);
       </script>
