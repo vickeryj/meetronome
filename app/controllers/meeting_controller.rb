@@ -30,4 +30,14 @@ class MeetingController < ApplicationController
     @meeting.stop
     redirect_to :action => 'view', :id => @meeting
   end
+
+  def addNote
+    @meeting = Meeting.find(@params[:meeting][:id])
+    note = Note.new(@params[:newNote])
+    note.meeting = @meeting
+    if (note.descr != "")
+      note.save
+    end
+    redirect_to :action => 'view', :id => @meeting
+  end
 end

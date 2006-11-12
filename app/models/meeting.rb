@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 2
+# Schema version: 3
 #
 # Table name: meetings
 #
@@ -12,6 +12,7 @@
 require 'money'
 class Meeting < ActiveRecord::Base
 has_many :periods
+has_many :notes, :order => "created_at desc"
 composed_of :cost_per_hour, :class_name => "Money", :mapping => [%w(cents_per_hour cents), %w(currency currency)]
 
 
