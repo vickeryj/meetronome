@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 2
+# Schema version: 3
 #
 # Table name: periods
 #
@@ -12,5 +12,4 @@
 
 class Period < ActiveRecord::Base
   belongs_to  :meeting
-
 end
