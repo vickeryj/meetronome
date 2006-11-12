@@ -10,12 +10,13 @@
   <ul>
     <% for n in @meeting.notes %>
     <li>
-      <%= n.descr %> -- 
+      <%= n.descr %>
+    <% if not n.running? %>
       <script type="text/javascript">
-        document.write("$"+number_str(<%= n.cost %>));
+        document.write(" -- $"+number_str(<%= n.cost %>));
       </script>
-    <% if n.running? %>
-    <%= link_to "stop", { :controller => 'note', :action => "stop", :id => n}%>
+    <% else %>
+    for <%= distance_of_time_in_words(Time.now - n.created_at)%> (<%= link_to "that's not happening anymore", { :controller => 'note', :action => "stop", :id => n}%>)
     </li>
     <% end %>
   <% end %>
