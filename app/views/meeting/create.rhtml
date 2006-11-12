@@ -3,11 +3,7 @@
   <body>
     <%= error_messages_for 'meeting' %>
     <p>
-    <% form_for :meeting, @meeting, :url => { :action => "save" } do |f| %>
-    <p>Name: <%= f.text_field :name %></p>
-    <p>Cost: $<%= f.text_field :dollars_per_hour%> per hour</p>
-    <p><input type="submit"/></p>
-    <% end %>
+    <%= render :partial => 'costcalc' %>
     </p>
   </body>
 </html>
