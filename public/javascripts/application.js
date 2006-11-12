@@ -24,3 +24,31 @@ function inc_totals_at_rate(rate, inc) {
   // run this function again 
   setTimeout('inc_totals_at_rate('+rate+','+inc+');', rate);
 }
+
+var send_it = true;
+function do_send()
+{
+	return false;
+	if (send_it)
+	{
+		return(send_it);
+	}
+	else
+	{
+		send_it = true;
+		return false;
+	}
+}
+
+
+function calc_costa()
+{
+	$("meeting_dollars_per_hour").value = parseInt($("dph").value).toFixed(2);
+	send_it = false;
+}
+
+function calc_costb()
+{
+	$("meeting_dollars_per_hour").value = (parseInt($("pwm").value) * parseInt($("salary").value) / (52 * 40)).toFixed(2);
+	send_it = false;
+}

@@ -6,6 +6,7 @@ class MeetingController < ApplicationController
 
   def save
     @meeting = Meeting.new(@params[:meeting])
+    logger.debug(@params.to_s)
     if (@meeting.save)
       @meeting.start
       redirect_to :action => 'view', :id => @meeting
