@@ -10,7 +10,10 @@
   <ul>
     <% for n in @meeting.notes %>
     <li>
-    <%= n.descr %> -- $<%= n.cost/100 %>
+      <%= n.descr %> -- 
+      <script type="text/javascript">
+        document.write("$"+number_str(<%= n.cost %>));
+      </script>
     <% if n.running? %>
     <%= link_to "stop", { :controller => 'note', :action => "stop", :id => n}%>
     </li>
