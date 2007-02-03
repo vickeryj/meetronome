@@ -21,16 +21,16 @@
     <% end %>
   <% end %>
   </ul>
-  <%= start_form_tag :action => 'addNote' %>
-  <p>what's going on?
-  <%= text_area "newNote", "descr", "cols" => 20, "rows" => "2" %>
-  <%= hidden_field "meeting", "id"%>
-  <input type="submit" value="go"/>
-  <%= end_form_tag %></p>
-  </p>
+  <% if @meeting.running? %>
+    <%= start_form_tag :action => 'addNote' %>
+    <p>what's going on?
+    <%= text_area "newNote", "descr", "cols" => 20, "rows" => "2" %>
+    <%= hidden_field "meeting", "id"%>
+    <input type="submit" value="go"/>
+    <%= end_form_tag %></p>
+    </p>
 
-  <p>
-    <% if @meeting.running? %>
+    <p>
       <%= link_to "Stop Meeting", { :action => 'stop', :id => @meeting } %>
       <script type="text/javascript">
       //not sure if this should go here or not
