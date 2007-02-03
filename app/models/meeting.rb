@@ -34,7 +34,9 @@ end
 
 def stop_notes
   notes.each {|n|
-    n.stop()
+    if n.running?
+      n.stop()
+    end
   }
 end
 
