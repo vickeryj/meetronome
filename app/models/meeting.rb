@@ -23,12 +23,19 @@ def start
 end
 
 def stop
+  stop_notes
   period = periods.last
   #dont restop a stopped meeting
   if period.stopped_at.nil? 
     period.stopped_at = Time.now
     period.save
   end
+end
+
+def stop_notes
+  notes.each {|n|
+    n.stop()
+  }
 end
 
 def running?
