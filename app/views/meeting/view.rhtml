@@ -7,20 +7,9 @@
   <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
   
   <!--notes -->
-  <ul>
-    <% for n in @meeting.notes %>
-    <li>
-      <%= n.descr %>
-    <% if not n.running? %>
-      <script type="text/javascript">
-        document.write(" -- $"+number_str(<%= n.cost %>));
-      </script>
-    <% else %>
-    for <%= distance_of_time_in_words(Time.now - n.created_at)%> (<%= link_to "that's not happening anymore", { :controller => 'note', :action => "stop", :id => n}%>)
-    </li>
-    <% end %>
-  <% end %>
-  </ul>
+  <div id="notes"><%= render :partial => 'notes' %></div>
+
+
   <% if @meeting.running? %>
     <%= start_form_tag :action => 'addNote' %>
     <p>what's going on?

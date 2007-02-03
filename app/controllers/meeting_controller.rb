@@ -20,6 +20,7 @@ class MeetingController < ApplicationController
     if request.xhr?
       render :update do |page|
              page.replace_html 'startcost', @meeting.cost.to_s
+             page.replace_html 'notes', :partial => 'notes'
       end
       return
     end
