@@ -29,18 +29,13 @@ class MeetingController < ApplicationController
 
   def stop
     @meeting = Meeting.find(@params[:id])
-    #stop all notes that belong to this meeting
-    @notes = Note.find(:all, :conditions => [ "meeting_id=?", @meeting.id ])
-    @notes.each {|n|
-      n.stop()
-    }
-    #stop the meeting
     @meeting.stop
     redirect_to :action => 'view', :id => @meeting
   end
 
   def addNote
     @meeting = Meeting.find(@params[:meeting][:id])
+    @meeting.stop_notes
     if @meeting.running?
       note = Note.new(@params[:newNote])
       note.meeting = @meeting
