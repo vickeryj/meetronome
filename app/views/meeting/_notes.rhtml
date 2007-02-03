@@ -1,0 +1,12 @@
+    <ul>
+      <% for n in @meeting.notes %>
+      <li>
+        <%= n.descr %>
+      <% if not n.running? %>
+          -- <%= number_to_currency(n.cost/100.to_f) %>
+      <% else %>
+      for <%= distance_of_time_in_words(Time.now - n.created_at)%> (<%= link_to "that's not happening anymore", { :controller => 'note', :action => "stop", :id => n}%>)
+      <% end %>
+      </li>
+    <% end %>
+    </ul>
