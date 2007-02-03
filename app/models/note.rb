@@ -26,8 +26,10 @@ class Note < ActiveRecord::Base
   end
 
   def stop
-    write_attribute(:stopped_at,Time.now)
-    save
+    if running?
+      write_attribute(:stopped_at,Time.now)
+      save
+    end
   end
 
   def running?
