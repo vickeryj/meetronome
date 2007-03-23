@@ -42,5 +42,7 @@
       </script>
     <% end %>
   </p>
-  </body>
+  <div id="alternative"></div>
+  <%= periodically_call_remote :url => { :controller => :alt_widget, :action => :view, :meeting_id => @meeting.id, :frequency => 15 } %>
+</body>
 </html>
