@@ -23,7 +23,7 @@ alt_widgets_003:
   name: rubics
   last_used_at: 
   title: Rubics cube
-  id: "2"
+  id: "3"
   calc: |
     def calculate(meeting)
     "With practice you could have solved #{(meeting.time_in_seconds/25)to_int} rubic's cubes during this meeting"
