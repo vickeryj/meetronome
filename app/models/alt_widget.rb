@@ -16,19 +16,25 @@ class AltWidget < ActiveRecord::Base
   #the method needs to return html for now
   #we should probably change that with some 
   #helpers or something
-  def after_find
-    instance_eval(calc) unless calc.nil?
+  
+  def render(meeting, page, tag)
   end
 
-  def calculate_alternative(meeting)
+  def render_with_accounting(meeting, page, tag)
     last_used_at = DateTime.now
     self.save
-    calculate(meeting)
+    #maybe set a popularity count or some kind of click through tracking?
+    render_without_accounting(meeting, page, tag)
+  end
+
+  def after_find
+    instance_eval(calc) unless calc.nil?
+    AltWidget.alias_method_chain :render, :accounting
   end
   
   def self.find_random
     #from jonathan viney
     #http://dev.rubyonrails.org/ticket/1384
-    find(connection.select_values('select id from alt_widgets order by rand() limit 1'))
+    find(connection.select_value('select id from alt_widgets order by rand() limit 1'))
   end
 end
