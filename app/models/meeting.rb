@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 4
+# Schema version: 5
 #
 # Table name: meetings
 #
@@ -7,6 +7,7 @@
 #  name           :string(255)   
 #  cents_per_hour :integer(11)   
 #  currency       :string(255)   
+#  attendance     :integer(11)   
 #
 
 require 'money'
