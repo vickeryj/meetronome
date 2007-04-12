@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 4
+# Schema version: 5
 #
 # Table name: alt_widgets
 #
@@ -8,6 +8,7 @@
 #  title        :string(255)   
 #  calc         :string(255)   
 #  last_used_at :datetime      
+#  views        :integer(11)   
 #
 
 class AltWidget < ActiveRecord::Base
@@ -21,15 +22,17 @@ class AltWidget < ActiveRecord::Base
   end
 
   def render_with_accounting(meeting, page, tag)
-    last_used_at = DateTime.now
-    self.save
+    self.last_used_at = DateTime.now
+    self.views = 1 + (self.views || 0)
+    self.save!
     #maybe set a popularity count or some kind of click through tracking?
     render_without_accounting(meeting, page, tag)
   end
 
   def after_find
     instance_eval(calc) unless calc.nil?
-    AltWidget.alias_method_chain :render, :accounting
+    sing = class << self; self; end
+    sing.send :alias_method_chain, :render, :accounting
   end
   
   def self.find_random

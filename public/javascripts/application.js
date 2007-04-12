@@ -11,7 +11,7 @@ function number_str (n) {
 //hmm accessing all these elements by id makes them less useful?
 //Should we pass elements as parameters?
 function calc() {
-  var cost = $('people').value * $('salary').value;
+  var cost = $('meeting_attendance').value * $('salary').value;
   if ($('wage_type_annual').checked)
   {
     cost = cost/(50*40);
