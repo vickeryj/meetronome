@@ -1,3 +1,29 @@
+body {
+  width: 720px
+}
+.banner {
+  width: 720px;
+}
+
+#footer {
+  clear: both;
+}
+
+#main_content {
+  width: 450px;
+  float: left;
+}
+
+#alternative {
+  width: 270px;
+  float:right;
+}
+
 div.inputcontainer {
   width: 15em;
 }
+
+#raw {
+	font-size: 36px;
+}
+
