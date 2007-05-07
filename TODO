@@ -1,0 +1,19 @@
+A todo list in no particular order
+
+*Limit stop to creator of meeting a cookie might be good enough but a password might also be nice
+
+*Design needs improvement... lots
+
+*Think about slowing down the spin rate for the higher numbers  on expensive meetings (1000$/hr) you don't get much more than a flash when they change.  We might be able to do this with some math.
+
+*Dynamically add digits when the numbers get High,  they should slide in with a Effect
+
+*Cache the DOM objects of the digits (prototype might already be doing this)
+
+*Stopping meetings needs to change the display more.  Maybe it should look like a reciept?
+
+*Change alternatives so they fade in and out.
+
+*Add a small data cache to the alternatives model that gets loaded.  Maybe stored in YML.
+
+*More
