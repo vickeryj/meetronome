@@ -70,3 +70,35 @@ function calc_costb()
 	$("meeting_dollars_per_hour").value = (parseInt($("pwm").value) * parseInt($("salary").value) / (52 * 40)).toFixed(2);
 	send_it = false;
 }
+
+/*might be neat to set this automatically by reading the css style info or something*/
+CHEIGHT = 36;
+
+function set(total) {
+	offset = total - Math.floor(total);
+	total = total - offset;
+
+	for (i=0; i < 6; i++)
+	{
+		placeset(Math.pow(10,i), offset + (total % 10));
+		if (total % 10 != 9)
+		{
+			offset = 0;
+		}
+		total = Math.floor(total/10);
+	}
+}
+function placeset(sig_place, value) {
+	$("place" + String(sig_place)).style.backgroundPosition = "0px " + String(value*-CHEIGHT) + "px" 
+}
+/*can add start amount to this to allow ajax syncing*/
+function roll(cents_per_hour, start_time, start_amount) {
+	milliseconds_per_cent = 3600000/cents_per_hour;
+	now = new Date();
+	duration = now.getTime() - start_time;
+	cents = duration/milliseconds_per_cent + start_amount;
+	set(cents);
+	/*there must be a better way to refer to the roll callback create a function pointer or something)*/
+	setTimeout("roll(" + String(cents_per_hour) +", "+String(start_time) + ", " + String(start_amount) + ");", 40);
+}
+

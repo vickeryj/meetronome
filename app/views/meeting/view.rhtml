@@ -1,13 +1,21 @@
   <% content_for :title do%>meeting counter<% end %>
   <div id="main_content">
     <h1><%= @meeting.name %></h1>
-  <p>Current Cost: <span id="raw">0</span></p>
+    <p>Current Cost: 
+      <div class="numeral" id="place100000"></div>
+      <div class="numeral" id="place10000"></div>
+      <div class="numeral" id="place1000"></div>
+      <div class="numeral" id="place100"></div>
+      <div class="decimal">.</div>
+      <div class="numeral" id="place10"></div>
+      <div class="numeral" id="place1"></div>
+    </p>
   
-  <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
+    <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
   
-  <!--notes -->
-  <h2>Activities</h2>
-  <div id="notes"><%= render :partial => 'notes' %></div>
+    <!--notes -->
+    <h2>Activities</h2>
+    <div id="notes"><%= render :partial => 'notes' %></div>
 
   <% if @meeting.running? %>
     <%= start_form_tag :action => 'addNote' %>
@@ -23,22 +31,17 @@
     <p>
     <%= link_to "Stop Meeting", { :action => 'stop', :id => @meeting } %>
   </div>
-      <script type="text/javascript">
-      //not sure if this should go here or not
-      startamount=0;
-        curamount=parseInt($("startcost").firstChild.nodeValue);
-        //we could put this on the serverside??
-        onerate = 3600000/<%= @meeting.cents_per_hour %>;
-        inc = Math.ceil(1/(Math.exp(Math.log(onerate)-4)));
-        
-        
-        inc_totals_at_rate(onerate*inc, inc);
+    <script type="text/javascript">
+    //not sure if this should go here or not
+    curamount=parseInt($("startcost").firstChild.nodeValue);
+    cents_per_hour = <%= @meeting.cents_per_hour %>;
+    now = new Date();
+    roll(cents_per_hour, now.getTime(), <%= @meeting.cost %>);
       </script>
-      <%= periodically_call_remote :url => { :action => "view", :id => @meeting } %>
+      <!-- periodically_call_remote :url => { :action => "view", :id => @meeting } % -->
     <% else %>
       <script type="text/javascript"> 
-        document.getElementById("raw").firstChild.nodeValue = 
-        "$" + number_str(<%= @meeting.cost %>);
+        set(<%= @meeting.cost %>);
       </script>
     <% end %>
   </p>
