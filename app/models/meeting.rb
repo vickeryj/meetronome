@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 5
+# Schema version: 6
 #
 # Table name: meetings
 #
@@ -8,6 +8,7 @@
 #  cents_per_hour :integer(11)   
 #  currency       :string(255)   
 #  attendance     :integer(11)   
+#  owner_cookie   :string(255)   
 #
 
 require 'money'
@@ -24,6 +25,7 @@ def start
 end
 
 def stop
+
   stop_notes
   period = periods.last
   #dont restop a stopped meeting

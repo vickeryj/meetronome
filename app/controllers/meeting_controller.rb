@@ -4,12 +4,16 @@ class MeetingController < ApplicationController
     @meeting = Meeting.new()
   end
 
+
   def save
     @meeting = Meeting.new(@params[:meeting])
     logger.debug(@params.to_s)
+    @meeting.owner_cookie = cookies[:meetingowner] || rand(999999).to_s 
     if (@meeting.save)
       @meeting.start
-      redirect_to :action => 'view', :id => @meeting
+      session[:owner] = true
+      flash[:setcookie] = true
+      render :action => 'view'     
     else
       render :action => 'create'
     end
@@ -17,6 +21,11 @@ class MeetingController < ApplicationController
   
   def view
     @meeting = Meeting.find(@params[:id])
+    if flash[:setcookie]
+      cookies[:meetingowner] = {:value => @meeting.owner_cookie, :expires => 1.week.from_now}
+    end
+    session[:owner] = true if cookies[:meetingowner] = @meeting.owner_cookie
+    
     if request.xhr?
       render :update do |page|
              page.replace_html 'startcost', @meeting.cost.to_s
@@ -36,7 +45,8 @@ class MeetingController < ApplicationController
 
   def stop
     @meeting = Meeting.find(@params[:id])
-    @meeting.stop
+
+    @meeting.stop if cookies[:meetingowner] == @meeting.owner_cookie
     redirect_to :action => 'view', :id => @meeting
   end
 

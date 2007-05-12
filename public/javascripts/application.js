@@ -73,20 +73,34 @@ function calc_costb()
 
 /*might be neat to set this automatically by reading the css style info or something*/
 CHEIGHT = 36;
+CDIGITS = 6;
 
-function set(total) {
+function set(total, rolling_digits) {
 	offset = total - Math.floor(total);
 	total = total - offset;
 
-	for (i=0; i < 6; i++)
+	for (i=1; i <= CDIGITS; i++)
 	{
-		placeset(Math.pow(10,i), offset + (total % 10));
-		if (total % 10 != 9)
+		placeset(i, offset + (total % 10));
+		if (total % 10 != 9 && rolling_digits < i)
 		{
 			offset = 0;
 		}
-		total = Math.floor(total/10);
+                if (rolling_digits >= i)
+                {
+                offset = total/10 - Math.floor(total/10);
+		}
+                total = Math.floor(total/10);
 	}
+        while (total > 0)
+        {
+          new Insertion.Before($("place"+ String(CDIGITS)), "<div class='numeral' id='place" +String(CDIGITS +1)+"'></div>");
+        
+          CDIGITS += 1;
+          placeset(CDIGITS, total % 10);
+          total = Math.floor(total/10);
+
+        }
 }
 function placeset(sig_place, value) {
 	$("place" + String(sig_place)).style.backgroundPosition = "0px " + String(value*-CHEIGHT) + "px" 
@@ -97,7 +111,9 @@ function roll(cents_per_hour, start_time, start_amount) {
 	now = new Date();
 	duration = now.getTime() - start_time;
 	cents = duration/milliseconds_per_cent + start_amount;
-	set(cents);
+
+	rollers = Math.ceil(Math.log(40/milliseconds_per_cent)/Math.LN10)
+        set(cents, rollers );
 	/*there must be a better way to refer to the roll callback create a function pointer or something)*/
 	setTimeout("roll(" + String(cents_per_hour) +", "+String(start_time) + ", " + String(start_amount) + ");", 40);
 }

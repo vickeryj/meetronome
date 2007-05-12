@@ -5,6 +5,7 @@ A todo list in no particular order
 *Design needs improvement... lots
 
 *Think about slowing down the spin rate for the higher numbers  on expensive meetings (1000$/hr) you don't get much more than a flash when they change.  We might be able to do this with some math.
+**A good rule could be if the low digit is spinning faster than one number per frame then let the next highest digit roll continuously 
 
 *Dynamically add digits when the numbers get High,  they should slide in with a Effect
 
