@@ -2,12 +2,12 @@
   <div id="main_content">
     <h1><%= @meeting.name %></h1>
     <p>Current Cost: 
-      <div class="numeral" id="place100000"></div>
-      <div class="numeral" id="place10000"></div>
-      <div class="numeral" id="place1000"></div>
-      <div class="numeral" id="place100"></div>
+      <div class="numeral" id="place6"></div>
+      <div class="numeral" id="place5"></div>
+      <div class="numeral" id="place4"></div>
+      <div class="numeral" id="place3"></div>
       <div class="decimal">.</div>
-      <div class="numeral" id="place10"></div>
+      <div class="numeral" id="place2"></div>
       <div class="numeral" id="place1"></div>
     </p>
   
@@ -29,7 +29,12 @@
 
   <% if @meeting.running? %>
     <p>
-    <%= link_to "Stop Meeting", { :action => 'stop', :id => @meeting } %>
+    <%= if session[:owner]
+          link_to "Stop Meeting", { :action => 'stop', :id => @meeting }
+        else
+          "You are not the owner of this meeting"
+        end
+    %>
   </div>
     <script type="text/javascript">
     //not sure if this should go here or not

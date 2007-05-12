@@ -1,14 +1,15 @@
 # == Schema Information
-# Schema version: 5
+# Schema version: 6
 #
 # Table name: alt_widgets
 #
 #  id           :integer(11)   not null, primary key
 #  name         :string(255)   
 #  title        :string(255)   
-#  calc         :string(255)   
+#  calc         :text          
 #  last_used_at :datetime      
 #  views        :integer(11)   
+#  data         :text          
 #
 
 class AltWidget < ActiveRecord::Base
