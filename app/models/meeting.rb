@@ -47,8 +47,17 @@ def running?
   periods.last.stopped_at.nil?
 end
 
+#can we delete this one? -p
 def paused?
   !running?
+end
+
+def stopped?
+  !running?
+end
+
+def stopped_at
+  periods.last.stopped_at
 end
 
 def time_in_seconds
@@ -74,6 +83,12 @@ end
 
 def dollars_per_hour
   read_attribute(cents_per_hour) ? read_attribute(cents_per_hour)/100 : nil
+end
+
+def changed_in_minute?
+  notes.each do |note|
+    return true if note.changed_in_minute?
+  end
 end
 
 ##

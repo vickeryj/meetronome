@@ -13,7 +13,7 @@ class MeetingController < ApplicationController
       @meeting.start
       session[:owner] = true
       flash[:setcookie] = true
-      render :action => 'view'     
+      redirect_to :action => 'view', :id => @meeting.id    
     else
       render :action => 'create'
     end
@@ -34,12 +34,19 @@ class MeetingController < ApplicationController
     end
   end
 
+
+  
   def update_notes
     @meeting = Meeting.find(@params[:id])
-      render :update do |page|
-             page.replace_html 'notes', :partial => 'notes'
+    
+    render :update do |page|
+      if (@meeting.stopped? and (Time.now - @meeting.stopped_at) < 300)
+        page << "window.location.reload()"
+      elsif (@meeting.changed_in_minute?)
+        page.replace_html 'notes', :partial => 'notes'
       end
-      return
+    end
+    return
   end
 
 

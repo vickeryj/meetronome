@@ -35,5 +35,9 @@ class Note < ActiveRecord::Base
   def running?
     stopped_at.nil?
   end
-
+  
+  def changed_in_minute?
+    now = Time.now
+    (now - created_at < 60) or (!running? and now - stopped_at < 60)
+  end
 end
