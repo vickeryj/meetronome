@@ -94,9 +94,14 @@ function set(total, rolling_digits) {
 	}
         while (total > 0)
         {
-          new Insertion.Before($("place"+ String(CDIGITS)), "<div class='numeral' id='place" +String(CDIGITS +1)+"'></div>");
-        
+          if ((CDIGITS +1) % 3 == 0)
+          {
+            new Insertion.Top($("current_cost"), "<div class='decimal'>,</div>")
+          }
+      
           CDIGITS += 1;
+          new Insertion.Top($("current_cost"), "<div class='numeral' id='place" +String(CDIGITS)+"'></div>");
+        
           placeset(CDIGITS, total % 10);
           total = Math.floor(total/10);
 

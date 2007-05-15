@@ -13,13 +13,12 @@
 #
 
 class AltWidget < ActiveRecord::Base
-  #the calc field should contain the definition 
-  #of calculate(meeting) for the alternative
-  #the method needs to return html for now
-  #we should probably change that with some 
-  #helpers or something
-  
+  serialize :data
+
   def render(meeting, page, tag)
+  end
+
+  def loaddata()
   end
 
   def render_with_accounting(meeting, page, tag)
