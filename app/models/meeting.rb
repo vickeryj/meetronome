@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 6
+# Schema version: 8
 #
 # Table name: meetings
 #
