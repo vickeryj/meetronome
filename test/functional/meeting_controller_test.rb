@@ -11,8 +11,13 @@ class MeetingControllerTest < Test::Unit::TestCase
     @response   = ActionController::TestResponse.new
   end
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_create
+    get :create
+    assert_response :success
+  end
+
+  def test_save
+    post :save, :meeting => { :cents_per_hour => 1000, :name => "foobar"}
+    assert_redirected_to :action => "view"
   end
 end

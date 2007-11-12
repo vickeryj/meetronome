@@ -11,8 +11,7 @@
 #  owner_cookie   :string(255)   
 #
 
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-first:
+valid_meeting:
   id: 1
-another:
-  id: 2
+  name: Some Meeting
+  cents_per_hour: 1000
