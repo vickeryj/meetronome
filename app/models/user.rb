@@ -19,8 +19,8 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
 
-  has_one :accepted_invitation, :class => 'Invite'
-  has_many :sent_invitations, :class => 'Invite'
+  has_one :accepted_invitation, :class_name => 'Invite'
+  has_many :sent_invitations, :class_name => 'Invite'
 
   validates_presence_of     :login, :email
   validates_presence_of     :password,                   :if => :password_required?

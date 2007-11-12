@@ -14,8 +14,8 @@ class Invite < ActiveRecord::Base
   include TokenGenerator
   before_create :set_token
   
-  belongs_to :inviter_user, :class => 'User', :foreign_key => 'inviter_user_id'
-  belongs_to :accepter_user, :class => 'User', :foreign_key => 'accepter_user_id'
+  belongs_to :inviter_user, :class_name => 'User', :foreign_key => 'inviter_user_id'
+  belongs_to :accepter_user, :class_name => 'User', :foreign_key => 'accepter_user_id'
   
   
 end
