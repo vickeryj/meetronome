@@ -6,8 +6,8 @@ class MeetingController < ApplicationController
 
 
   def save
-    @meeting = Meeting.new(@params[:meeting])
-    logger.debug(@params.to_s)
+    @meeting = Meeting.new(params[:meeting])
+    logger.debug(params.to_s)
     @meeting.owner_cookie = cookies[:meetingowner] || rand(999999).to_s 
     if (@meeting.save)
       @meeting.start
@@ -20,7 +20,7 @@ class MeetingController < ApplicationController
   end
   
   def view
-    @meeting = Meeting.find(@params[:id])
+    @meeting = Meeting.find(params[:id])
     if flash[:setcookie]
       cookies[:meetingowner] = {:value => @meeting.owner_cookie, :expires => 1.week.from_now}
     end
@@ -37,7 +37,7 @@ class MeetingController < ApplicationController
 
   
   def update_notes
-    @meeting = Meeting.find(@params[:id])
+    @meeting = Meeting.find(params[:id])
     
     render :update do |page|
       if (@meeting.stopped? and (Time.now - @meeting.stopped_at) < 300)
@@ -51,17 +51,17 @@ class MeetingController < ApplicationController
 
 
   def stop
-    @meeting = Meeting.find(@params[:id])
+    @meeting = Meeting.find(params[:id])
 
     @meeting.stop if cookies[:meetingowner] == @meeting.owner_cookie
     redirect_to :action => 'view', :id => @meeting
   end
 
   def addNote
-    @meeting = Meeting.find(@params[:meeting][:id])
+    @meeting = Meeting.find(params[:meeting][:id])
     @meeting.stop_notes
     if @meeting.running?
-      note = Note.new(@params[:newNote])
+      note = Note.new(params[:newNote])
       note.meeting = @meeting
       if (note.descr != "")
         note.save

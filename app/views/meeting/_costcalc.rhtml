@@ -1,7 +1,7 @@
 
 
 <div>
-<%= form_tag({ :action => 'save' }, :method => 'post') %>
+<% form_tag({ :action => 'save' }, :method => 'post') do -%>
 Meeting Cost <br/><br/>
 <%= slider_stylesheet %>
   <div class="inputcontainer">
@@ -44,12 +44,11 @@ Meeting Cost <br/><br/>
 
 <input type="hidden" id="track1value">
 <input type="hidden" id="track2value">
-<%= end_form_tag %>
 <%= slider_element 'track1', :minimum => 1, :maximum => 20,  :increment => 3, :values => "[#{(1..20).to_a.join(', ')}]", :slide => '$("track1value").value = value; $("meeting_attendance").value = value; $("costperhour").value = MC.calc()', :range => 1..20, :sliderValue => 1 %>
 
 
 <%= slider_element 'track2', :minimum => 10000, :maximum => 200000,  :increment => 3, :values => (2..40).inject([]){|a,i|a << i*5000}.inspect, :slide => '$("track2value").value = value; $("salary").value = MC.check_wage_type(value); $("costperhour").value = MC.calc()', :range => 10000..200000, :sliderValue => 50000 %>
-<% end_form_tag %>
+<% end -%>
 
 
 
