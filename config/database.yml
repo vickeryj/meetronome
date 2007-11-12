@@ -25,7 +25,7 @@ test:
   database: mc_test
   username: root
   password:
-  host: localhost
+  host: 127.0.0.1
 
 production:
   adapter: mysql
