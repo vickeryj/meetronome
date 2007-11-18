@@ -1,6 +1,6 @@
   <% content_for :title do%>meeting counter<% end %>
+  <h2><%= @meeting.name %></h2>
   <div id="main_content">
-    <h1><%= @meeting.name %></h1>
     <p>Current Cost</p>
     <p id="current_cost"> 
       <div class="numeral" id="place6"></div>
@@ -16,7 +16,7 @@
     <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
   
     <!--notes -->
-    <h2>Activities</h2>
+    <h3>Activities</h3>
     <div id="notes"><%= render :partial => 'notes' %></div>
 
   <% if @meeting.running? %>

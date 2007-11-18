@@ -8,10 +8,9 @@
   <!-- we still dont have these yet-->
   <%= stylesheet_link_tag("application") %>
   <%= javascript_include_tag(:defaults) %>
-
+  <%= yield :head %>
 </head>
 <body>
-<div id="banner">Cool Logo Here</div>
 <div id="content">
 <%= yield :layout %>
 </div> 
