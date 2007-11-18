@@ -1,55 +1,74 @@
+<% content_for :head do -%>
+<%= javascript_include_tag("rounded_corners.inc.js") %>
+<script type="text/JavaScript">
 
+  window.onload = function()
+  {
+    settings = {
+      tl: { radius: 20 },
+      tr: { radius: 20 },
+      bl: { radius: 20 },
+      br: { radius: 20 },
+      antiAlias: true,
+      autoPad: false
+    }
+    var divObj = $('form_box');
+    var cornersObj = new curvyCorners(settings, divObj);
+    cornersObj.applyCornersToAll();
+  }
 
-<div>
-<% form_tag({ :action => 'save' }, :method => 'post') do -%>
-Meeting Cost <br/><br/>
-<%= slider_stylesheet %>
-  <div class="inputcontainer">
-  <fieldset>
-  <legend>Name of meeting</legend>
-    <%= text_field :meeting, :name, :value => "my meeting", :size => "20" %>
-  </fieldset>
-  </div>
-  <div class="inputcontainer">
-  <fieldset>
-    <legend>Number of people</legend>
-    <div id='track1' class='slider'>
-      <div></div>
-    </div>
-    <%= text_field :meeting, :attendance, :value => "1", :size => "20", :onkeyup => '$("costperhour").value = MC.calc()' %>
-  </fieldset>
-</div>
-
-<div class="inputcontainer">
-  <fieldset>
-    <legend>Wages</legend>
-    <div id='track2' class='slider'>
-      <div></div>
-    </div>
-    <input type="text" id="salary" value="50000.00" size="20" onkeyup='$("costperhour").value = MC.calc()'/><br />
-    <input type="radio" name="wage_type" id="wage_type_annual" value="annual" checked onChange='$("salary").value = MC.check_wage_type($("track2value").value)'/>annual
-    <input type="radio" name="wage_type" value="hourly" onChange='$("salary").value = MC.check_wage_type($("track2value").value)'/>hourly
-  </fieldset>
-</div>
-
-<div class="inputcontainer">
-  <fieldset>
-    <legend>Cost per Hour</legend>
-    <input type="text" id="costperhour" value="25.00" size="20">
-  </fieldset>
-</div>
-<%= hidden_field :meeting, :cents_per_hour %>
-<input type="submit" value="submit" onClick="$('meeting_cents_per_hour').value = $('costperhour').value * 100">
-
-
-<input type="hidden" id="track1value">
-<input type="hidden" id="track2value">
-<%= slider_element 'track1', :minimum => 1, :maximum => 20,  :increment => 3, :values => "[#{(1..20).to_a.join(', ')}]", :slide => '$("track1value").value = value; $("meeting_attendance").value = value; $("costperhour").value = MC.calc()', :range => 1..20, :sliderValue => 1 %>
-
-
-<%= slider_element 'track2', :minimum => 10000, :maximum => 200000,  :increment => 3, :values => (2..40).inject([]){|a,i|a << i*5000}.inspect, :slide => '$("track2value").value = value; $("salary").value = MC.check_wage_type(value); $("costperhour").value = MC.calc()', :range => 10000..200000, :sliderValue => 50000 %>
+</script>
 <% end -%>
 
+<h2>Track a New Meeting</h2>
+<div id="form_box">
+  <h3>Tell us about your meeting</h3>
+  <% form_tag({ :action => 'save' }, :method => 'post') do -%>
+  <%= slider_stylesheet %>
+  <div id="left_form">
+    <div class="inputcontainer">
+      <fieldset>
+      <legend>Name of meeting</legend>
+        <%= text_field :meeting, :name, :value => "my meeting", :size => "20" %>
+      </fieldset>
+    </div>
+    <div class="inputcontainer">
+      <fieldset>
+        <legend>Number of people</legend>
+        <div id='track1' class='slider'>
+          <div></div>
+        </div>
+        <%= text_field :meeting, :attendance, :value => "1", :size => "20", :onkeyup => '$("costperhour").value = MC.calc()' %>
+      </fieldset>
+    </div>
+  </div>
+  <div id="right_form">
+    <div class="inputcontainer">
+      <fieldset>
+        <legend>Wages</legend>
+        <div id='track2' class='slider'>
+          <div></div>
+        </div>
+        <input type="text" id="salary" value="50000.00" size="20" onkeyup='$("costperhour").value = MC.calc()'/><br />
+        <input type="radio" name="wage_type" id="wage_type_annual" value="annual" checked onChange='$("salary").value = MC.check_wage_type($("track2value").value)'/>annual
+        <input type="radio" name="wage_type" value="hourly" onChange='$("salary").value = MC.check_wage_type($("track2value").value)'/>hourly
+      </fieldset>
+    </div>
 
-
+    <div class="inputcontainer">
+      <fieldset>
+        <legend>Cost per Hour</legend>
+        <input type="text" id="costperhour" value="25.00" size="20">
+      </fieldset>
+    </div>
+    <%= hidden_field :meeting, :cents_per_hour %>
+    <input type="hidden" id="track1value">
+    <input type="hidden" id="track2value">
+    <%= slider_element 'track1', :minimum => 1, :maximum => 20,  :increment => 3, :values => "[#{(1..20).to_a.join(', ')}]", :slide => '$("track1value").value = value; $("meeting_attendance").value = value; $("costperhour").value = MC.calc()', :range => 1..20, :sliderValue => 1 %>
+    <%= slider_element 'track2', :minimum => 10000, :maximum => 200000,  :increment => 3, :values => (2..40).inject([]){|a,i|a << i*5000}.inspect, :slide => '$("track2value").value = value; $("salary").value = MC.check_wage_type(value); $("costperhour").value = MC.calc()', :range => 10000..200000, :sliderValue => 50000 %>
+  </div>
+  <div id="form_buttons">
+    <input type="submit" value="submit" onClick="$('meeting_cents_per_hour').value = $('costperhour').value * 100">
+  </div>
+  <% end -%>
 </div>
