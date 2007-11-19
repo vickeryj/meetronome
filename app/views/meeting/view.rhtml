@@ -1,8 +1,8 @@
-  <% content_for :title do%>meeting counter<% end %>
+  <% content_for :title do%>Meetronome<% end %>
   <h2><%= @meeting.name %></h2>
-  <div id="main_content">
-    <p>Current Cost</p>
-    <p id="current_cost"> 
+  <div id="main_box">
+    <h3>Current Cost</h3>
+    <div id="current_cost"> 
       <div class="numeral" id="place6"></div>
       <div class="decimal">,</div>
       <div class="numeral" id="place5"></div>
@@ -11,7 +11,7 @@
       <div class="decimal">.</div>
       <div class="numeral" id="place2"></div>
       <div class="numeral" id="place1"></div>
-    </p>
+    </div>
   
     <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
   
@@ -32,7 +32,7 @@
   <% if @meeting.running? %>
     <p>
     <%= if session[:owner]
-          link_to "Stop Meeting", { :action => 'stop', :id => @meeting }
+          link_to image_tag("stop.png", :border =>0), { :action => 'stop', :id => @meeting }
         else
           "You are not the owner of this meeting"
         end

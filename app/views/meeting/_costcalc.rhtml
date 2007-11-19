@@ -1,27 +1,5 @@
-<% content_for :head do -%>
-<%= javascript_include_tag("rounded_corners.inc.js") %>
-<script type="text/JavaScript">
-
-  window.onload = function()
-  {
-    settings = {
-      tl: { radius: 20 },
-      tr: { radius: 20 },
-      bl: { radius: 20 },
-      br: { radius: 20 },
-      antiAlias: true,
-      autoPad: false
-    }
-    var divObj = $('form_box');
-    var cornersObj = new curvyCorners(settings, divObj);
-    cornersObj.applyCornersToAll();
-  }
-
-</script>
-<% end -%>
-
 <h2>Track a New Meeting</h2>
-<div id="form_box">
+<div id="main_box">
   <h3>Tell us about your meeting</h3>
   <% form_tag({ :action => 'save' }, :method => 'post') do -%>
   <%= slider_stylesheet %>
