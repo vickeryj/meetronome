@@ -29,6 +29,9 @@
   <%= yield :head %>
 </head>
 <body>
+  <div id="logo">
+    <%= image_tag("logo.png") %>
+  </div>
 <div id="user_menu">
   <%= link_to "Login!", :controller => 'account', :action => 'login' unless logged_in? -%>
   <%= link_to "Signup!", :controller => 'account', :action => 'signup' unless logged_in? -%>
