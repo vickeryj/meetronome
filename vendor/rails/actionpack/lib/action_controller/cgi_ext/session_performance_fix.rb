@@ -8,7 +8,19 @@ require 'digest/md5'
 
 class CGI
   class Session #:nodoc:
-    private
+      #Meetingcounter HACK vvvvv
+      def self.generate_unique_id(constant="foobar")
+        md5 = Digest::MD5.new
+        now = Time.now
+        md5 << now.to_s
+        md5 << String(now.usec)
+        md5 << String(rand(0))
+        md5 << String($$)
+        md5 << constant
+        md5.hexdigest
+      end
+      #MEETINGCOUNTER HACK ^^^^^
+      private 
       # Create a new session id.
       #
       # The session id is an MD5 hash based upon the time,
