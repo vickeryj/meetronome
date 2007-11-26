@@ -17,6 +17,9 @@ ActionController::Routing::Routes.draw do |map|
   # instead of a file named 'wsdl'
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
+  #this probably needs some work
+  #map.connect 'accept/invite/:invite[token]', :action => 'signup', :controller => 'account'
+  
   #this is terrible and needs to be fixed.  the meeting controller has ugly method names
   map.connect '', :controller => 'meeting', :action => 'create'
   # Install the default route as the lowest priority.

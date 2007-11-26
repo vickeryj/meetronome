@@ -36,6 +36,12 @@ class AccountControllerTest < Test::Unit::TestCase
     end
   end
 
+  def test_should_require_token_for_signup
+    get :signup
+    assert_response :success
+    assert_template 'bad_invite'
+  end
+
   def test_should_require_login_on_signup
     assert_no_difference User, :count do
       create_user(:login => nil)
@@ -115,8 +121,9 @@ class AccountControllerTest < Test::Unit::TestCase
 
   protected
     def create_user(options = {})
+      @invite = Invite.create
       post :signup, :user => { :login => 'quire', :email => 'quire@example.com', 
-        :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+        :password => 'quire', :password_confirmation => 'quire' }.merge(options), :token => @invite.token
     end
     
     def auth_token(token)

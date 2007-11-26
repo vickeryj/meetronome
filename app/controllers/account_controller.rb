@@ -23,9 +23,15 @@ class AccountController < ApplicationController
   end
 
   def signup
+    @invite = Invite.find_by_token_and_accepter_user_id(params[:token], nil)
+    unless @invite
+      render :template => 'account/bad_invite'
+      return
+    end
     @user = User.new(params[:user])
     return unless request.post?
     @user.save!
+    @user.accepted_invitation = @invite
     self.current_user = @user
     redirect_back_or_default(:controller => '/account', :action => 'index')
     flash[:notice] = "Thanks for signing up!"
