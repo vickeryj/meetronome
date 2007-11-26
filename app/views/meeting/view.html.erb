@@ -20,12 +20,12 @@
     <div id="notes"><%= render :partial => 'notes' %></div>
 
   <% if @meeting.running? %>
-    <%= start_form_tag :action => 'addNote' %>
+    <% form_tag :action => 'addNote' do %>
     <p>what's going on now?
     <%= text_field "newNote", "descr", :size => 20  %>
     <%= hidden_field "meeting", "id"%>
     <input type="submit" value="go"/>
-    <%= end_form_tag %></p>
+    <% end %></p>
     </p>
   <% end %>
 
