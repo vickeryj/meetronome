@@ -9,6 +9,7 @@
 body {
   background-image: url(/images/background.png);
   background-repeat: repeat-x;
+  font-family: Verdana, Times;
   padding: 0px;
   margin: 0px;
   border: 0px;
@@ -42,8 +43,8 @@ h3 {
 }
 
 #main_box {
-  width: 820px;
-  margin-left: 10px;
+  width: 780px;
+  margin-left: 40px;
   padding-bottom: 10px;
 }
 
@@ -62,7 +63,6 @@ h3 {
 
 #left_form{
   float: left;
-  margin-left: 40px;
 }
 #right_form{
   float: right;

@@ -1,56 +1,53 @@
-  <% content_for :title do%>Meetronome<% end %>
-  <h2><%= @meeting.name %></h2>
-  <div id="main_box">
-    <h3>Current Cost</h3>
-    <div id="current_cost"> 
-      <div class="numeral" id="place6"></div>
-      <div class="decimal">,</div>
-      <div class="numeral" id="place5"></div>
-      <div class="numeral" id="place4"></div>
-      <div class="numeral" id="place3"></div>
-      <div class="decimal">.</div>
-      <div class="numeral" id="place2"></div>
-      <div class="numeral" id="place1"></div>
-    </div>
-  
-    <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
-  
-    <!--notes -->
-    <h3>Activities</h3>
-    <div id="notes"><%= render :partial => 'notes' %></div>
+<% content_for :title do%>Meetronome<% end %>
+<h2><%= @meeting.name %></h2>
+<div id="main_box">
+  <h3>Current Cost</h3>
+  <div id="current_cost"> 
+    <div class="numeral" id="place6"></div>
+    <div class="decimal">,</div>
+    <div class="numeral" id="place5"></div>
+    <div class="numeral" id="place4"></div>
+    <div class="numeral" id="place3"></div>
+    <div class="decimal">.</div>
+    <div class="numeral" id="place2"></div>
+    <div class="numeral" id="place1"></div>
+  </div>
+
+  <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
+
+  <!--notes -->
+  <h3>Activities</h3>
+  <div id="notes"><%= render :partial => 'notes' %></div>
 
   <% if @meeting.running? %>
-    <% form_tag :action => 'addNote' do %>
-    <p>what's going on now?
+  <% form_tag :action => 'addNote' do %>
+  <p>what's going on now?
     <%= text_field "newNote", "descr", :size => 20  %>
     <%= hidden_field "meeting", "id"%>
     <input type="submit" value="go"/>
-    <% end %></p>
-    </p>
+  </p>
+  <% end %>
+
   <% end %>
 
   <% if @meeting.running? %>
-    <p>
-    <%= if session[:owner]
-          link_to image_tag("stop.png", :border =>0), { :action => 'stop', :id => @meeting }
-        else
-          "You are not the owner of this meeting"
-        end
-    %>
-  </div>
-    <script type="text/javascript">
-    //not sure if this should go here or not
-    curamount=parseInt($("startcost").firstChild.nodeValue);
-    cents_per_hour = <%= @meeting.cents_per_hour %>;
-    now = new Date();
-    MC.roll(cents_per_hour, now.getTime(), <%= @meeting.cost %>);
-      </script>
-      <%= periodically_call_remote :url => { :action => "update_notes", :id => @meeting } %> 
-    <% else %>
-      <script type="text/javascript"> 
-        MC.set(<%= @meeting.cost %>);
-      </script>
-    <% end %>
-  </p>
+
+  <%= link_to image_tag("stop.png", :border =>0), { :action => 'stop', :id => @meeting } if session[:owner] -%>
+
+  <script type="text/javascript">
+  //not sure if this should go here or not
+  curamount=parseInt($("startcost").firstChild.nodeValue);
+  cents_per_hour = <%= @meeting.cents_per_hour %>;
+  now = new Date();
+  MC.roll(cents_per_hour, now.getTime(), <%= @meeting.cost %>);
+  </script>
+  <%= periodically_call_remote :url => { :action => "update_notes", :id => @meeting } %> 
+  <% else %>
+  <script type="text/javascript"> 
+  MC.set(<%= @meeting.cost %>);
+  </script>
+  <% end %>
+
   <div id="alternative"></div>
   <%= periodically_call_remote :url => { :controller => :alt_widget, :action => :view, :meeting_id => @meeting.id, :frequency => 15 } %>
+</div>
