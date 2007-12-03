@@ -6,38 +6,21 @@
   <title><%= yield :title %></title>
   <%= stylesheet_link_tag("application") %>
   <%= javascript_include_tag(:defaults) %>
-  <%= javascript_include_tag("rounded_corners.inc.js") %>
-  <script type="text/JavaScript">
-
-    window.onload = function()
-    {
-      settings = {
-        tl: { radius: 20 },
-        tr: { radius: 20 },
-        bl: { radius: 20 },
-        br: { radius: 20 },
-        antiAlias: true,
-        autoPad: true
-      }
-      var divObj = $('main_box');
-      var cornersObj = new curvyCorners(settings, divObj);
-      cornersObj.applyCornersToAll();
-    }
-
-  </script>
-  
   <%= yield :head %>
 </head>
 <body>
-  <div id="logo">
-    <%= image_tag("logo.png") %>
+  <div id="header">
+    <%= image_tag("header.png") %>
   </div>
-<div id="user_menu">
-  <%= link_to "Login!", :controller => 'account', :action => 'login' unless logged_in? -%>
-  <%= link_to "Signup!", :controller => 'account', :action => 'signup' unless logged_in? -%>
-</div>
-<div id="content">
-<%= yield :layout %>
-</div> 
-<div id="footer">Footer goes here</div>
+  <div id="content">
+    <div id="user_menu">
+      <%= link_to "Login!", :controller => 'account', :action => 'login' unless logged_in? -%>
+      <%= link_to "Signup!", :controller => 'account', :action => 'signup' unless logged_in? -%>
+    </div>
+    <%= yield :layout %>
+  </div> 
+  <div>
+    <div><%= image_tag("footer.png") %></div>
+    <div id="footer">Meetronome is brought to you by Paul Damer and Josh Vickery</div>
+  </div>
 </body>

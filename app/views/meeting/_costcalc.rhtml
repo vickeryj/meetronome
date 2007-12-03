@@ -1,4 +1,5 @@
 <h2>Track a New Meeting</h2>
+<%= error_messages_for 'meeting' %>
 <div id="main_box">
   <h3>Tell us about your meeting</h3>
   <% form_tag({ :action => 'save' }, :method => 'post') do -%>
