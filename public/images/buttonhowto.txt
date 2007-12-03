@@ -1,4 +1,4 @@
-1. Create new file with fg orange, bg white, 40px high
+1. Create new file with fg orange, bg white,svn a 40px high
 2. Fill with orange
 3. script-fu>decor>round corners 
   edge radius 10 
@@ -6,5 +6,8 @@
   y offset 6 
   blur radius 10
 4. drop shadow layer opacity to 42
-4. vertical Gradient from white to orange from 0 to 25
+5. Select Orange lozenge with color select
+6. Shrink Selection 2 px
+4. In selection Vertical Gradient from white to orange from 0 to 25
 5. Text in white 16 pt georgia bold italic
+6. Flatten image and autocrop before creating png
