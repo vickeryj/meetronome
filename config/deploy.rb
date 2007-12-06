@@ -1,7 +1,7 @@
 require 'mongrel_cluster/recipes'
 
 set :application, "mc"
-set :repository,  " https://jsv.mine.nu/svn/repos/mc/trunk/config"
+set :repository,  " https://jsv.mine.nu/svn/repos/mc/trunk"
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
