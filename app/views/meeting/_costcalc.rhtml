@@ -3,7 +3,6 @@
 <div id="main_box">
   <h3>Tell us about your meeting</h3>
   <% form_tag({ :action => 'save' }, :method => 'post') do -%>
-  <%= slider_stylesheet %>
   <div id="left_form">
     <div class="inputcontainer">
       <fieldset>
@@ -47,7 +46,7 @@
     <%= slider_element 'track2', :minimum => 10000, :maximum => 200000,  :increment => 3, :values => (2..40).inject([]){|a,i|a << i*5000}.inspect, :slide => '$("track2value").value = value; $("salary").value = MC.check_wage_type(value); $("costperhour").value = MC.calc()', :range => 10000..200000, :sliderValue => 50000 %>
   </div>
   <div id="form_buttons">
-    <%= image_submit_tag "start.png", :onclick => "$('meeting_cents_per_hour').value = $('costperhour').value * 100"%>
+    <%= image_submit_tag "start.png", :alt => "Start Meeting", :onclick => "$('meeting_cents_per_hour').value = $('costperhour').value * 100"%>
   </div>
   <% end -%>
 </div>
