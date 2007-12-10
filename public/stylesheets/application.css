@@ -141,6 +141,44 @@ div.inputcontainer {
 	font-size: 36px;
 }
 
+/*start button css*/
+.clear { /* generic container (i.e. div) for floating buttons */
+    overflow: hidden;
+    width: 100%;
+}
+
+a.button {
+    background: transparent url('/images/buttonr.png') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: italic 16px Georgia, serif;
+    color: white;
+    height: 60px;
+    margin-right: 6px;
+    padding-right: 20px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+a.button span {
+    background: transparent url('/images/buttonl.png') no-repeat;
+    display: block;
+    line-height: 40px;
+    padding: 5px 0 15px 20px;
+}
+
+a.button:active {
+    background-position: bottom right;
+    color: #ddd;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+a.button:active span {
+    background-position: bottom left;
+    padding: 7px 0 13px 20px; /* push text down 2px */
+}
+
+
 div.slider {
   background: #e2d5c4 none repeat scroll 0%;
   height:5px;

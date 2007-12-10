@@ -20,11 +20,13 @@
   <div id="notes"><%= render :partial => 'notes' %></div>
 
   <% if @meeting.running? %>
-  <% form_tag :action => 'addNote' do %>
+  <% form_tag({:action => 'addNote'}, :id => "note_form") do %>
   <p>what's going on now?
     <%= text_field "newNote", "descr", :size => 20  %>
     <%= hidden_field "meeting", "id"%>
-    <input type="submit" value="go"/>
+    <div class="clear">
+      <%= link_to_function content_tag(:span, "Go"), "$('note_form').submit(0)", :onclick=>"this.blur;", :class=>"button" -%>
+    </div>
   </p>
   <% end %>
 
@@ -32,7 +34,9 @@
 
   <% if @meeting.running? %>
 
-  <%= link_to image_tag("stop.png", :border =>0), { :action => 'stop', :id => @meeting } if session[:owner] -%>
+  <div class="clear">
+    <%= link_to content_tag(:span, "Stop Meeting"), { :action => 'stop', :id => @meeting }, :class=>"button" if session[:owner] -%>
+  </div>
 
   <script type="text/javascript">
   //not sure if this should go here or not
