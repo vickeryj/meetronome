@@ -13,9 +13,9 @@
   is a carriage return between then, IE6 will display a gap after the image -->
   <div id="header"><%= image_tag("header.png") %></div>
   <div id="content">
-    <div id="user_menu">
-      <%= link_to "Login!", :controller => 'account', :action => 'login' unless logged_in? -%>
-      <%= link_to "Signup!", :controller => 'account', :action => 'signup' unless logged_in? -%>
+    <div class="clear" id="user_menu" >
+      <%= link_to(content_tag(:span, "Login"), {:controller => 'account', :action => 'login'}, :class => "button") unless logged_in? -%>
+      <%= link_to(content_tag(:span, "Signup"), {:controller => 'account', :action => 'signup'}, :class=>"button") unless logged_in? -%>
     </div>
     <%= yield :layout %>
   </div> 

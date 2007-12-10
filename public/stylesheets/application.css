@@ -110,10 +110,7 @@ legend {
   float: left;
 }
 
-#user_menu {
-  float: right;
-  margin-right: 20px;
-}
+
 
 #alternative {
   width: 270px;
@@ -195,4 +192,10 @@ div.slider div {
   margin-top:-5px;
   position:absolute;
   width:8px;
+}
+
+#user_menu {
+  float: right;
+  margin-right: 20px;
+  width: 200;
 }
