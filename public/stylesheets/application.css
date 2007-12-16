@@ -41,7 +41,7 @@ input {
   background: white;
   padding-left: 3px;
   color: #551f00;
-  
+  margin: 5px;
 }
 
 a {
@@ -53,6 +53,7 @@ fieldset {
   border: 1px solid #551f00;
   margin-bottom: 10px;
   width: 330px;
+  padding: 10px;
   background: url(/images/fieldset.png) repeat-x scroll center bottom;
 }
 
@@ -88,16 +89,17 @@ legend {
 
 #left_form{
   float: left;
+  width: 360px;
 }
 #right_form{
   float: right;
-  margin-right: 155px;
+  width: 360px;
+  padding-right: 40px;
 }
 
 #form_buttons{
   clear: both;
-  text-align: right;
-  margin-right: 36px;
+  margin-left: 615px;
   padding-top: 10px;
 }
 #form_buttons input {
@@ -145,23 +147,23 @@ div.inputcontainer {
 }
 
 a.button {
-    background: transparent url('/images/buttonr.png') no-repeat scroll top right;
+    background: transparent url('/images/smaller_buttons_r.png') no-repeat scroll top right;
     color: #444;
     display: block;
     float: left;
     font: italic 16px Georgia, serif;
     color: white;
-    height: 60px;
-    margin-right: 6px;
-    padding-right: 20px; /* sliding doors padding */
+    height: 32px;
+    margin-right: 3px;
+    padding-right: 12px; /* sliding doors padding */
     text-decoration: none;
 }
 
 a.button span {
-    background: transparent url('/images/buttonl.png') no-repeat;
+    background: transparent url('/images/smaller_buttons_l.png') no-repeat;
     display: block;
-    line-height: 40px;
-    padding: 5px 0 15px 20px;
+    line-height: 16px;
+    padding: 7px 0px 9px 13px;
 }
 
 a.button:active {
@@ -172,7 +174,8 @@ a.button:active {
 
 a.button:active span {
     background-position: bottom left;
-    padding: 7px 0 13px 20px; /* push text down 2px */
+    outline: none; /* hide dotted outline in Firefox */
+    padding: 9px 0 7px 13px; /* push text down 2px */
 }
 
 
@@ -196,6 +199,6 @@ div.slider div {
 
 #user_menu {
   float: right;
-  margin-right: 20px;
-  width: 200;
+  width: 182px;
+  margin-top: 10px;
 }
