@@ -18,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
   #this probably needs some work
-  map.connect 'accept/invite/:token', :action => 'signup', :controller => 'account'
+  map.connect ':token', :action => 'view', :controller => 'meeting'
   
   #this is terrible and needs to be fixed.  the meeting controller has ugly method names
   map.connect '', :controller => 'meeting', :action => 'create'

@@ -17,6 +17,8 @@ has_many :periods
 has_many :notes, :order => "created_at desc"
 composed_of :cost_per_hour, :class_name => "Money", :mapping => [%w(cents_per_hour cents), %w(currency currency)]
 
+include TokenGenerator
+before_create :set_token
 
 def start
   period = Period.new
@@ -25,7 +27,6 @@ def start
 end
 
 def stop
-
   stop_notes
   period = periods.last
   #dont restop a stopped meeting
@@ -91,10 +92,17 @@ def changed_in_minute?
   end
 end
 
-##
-# validation
-##
-validates_presence_of :name
-validates_numericality_of :cents_per_hour
+  ##
+  # validation
+  ##
+  validates_presence_of :name
+  validates_numericality_of :cents_per_hour
 
+
+  private
+
+  def set_token
+    self.token = generate_token(8) { |token| self.class.find_by_token(token).nil? }
+    self.owner_cookie = generate_token(16) { |token| self.class.find_by_owner_cookie(token).nil? }
+  end
 end
