@@ -37,7 +37,7 @@ h3 {
 }
 
 input {
-  border: 1px solid #ba8729;
+  border: 1px solid #be5843;
   background: white;
   padding-left: 3px;
   color: #551f00;
@@ -189,7 +189,7 @@ div.slider {
 }
 
 div.slider div {
-  background: #be5843 none repeat scroll 0%;
+  background: #d49a2f none repeat scroll 0%;
   border:1px outset white;
   height:15px;
   margin-top:-5px;
