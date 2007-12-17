@@ -81,12 +81,6 @@ legend {
   text-align: right;
 }
 
-#current_cost {
-  margin-right: auto;
-  margin-left: auto;
-  width: 50%;
-}
-
 #left_form{
   float: left;
   width: 360px;
@@ -112,11 +106,19 @@ legend {
   float: left;
 }
 
-
+#meeting_details {
+  float: left;
+  width: 470px;
+}
 
 #alternative {
-  width: 270px;
-  float:right;
+  width: 240px;
+  height: 70px;
+  margin-right: 40px;
+  border: 1px solid #be5843;
+  padding: 20px 10px 10px 0px;
+  text-align: center;
+  float: right;
 }
 
 div.inputcontainer {
@@ -138,6 +140,10 @@ div.inputcontainer {
 	width: 12px;
 	float: left;
 	font-size: 36px;
+}
+
+.clear_all {
+  clear: both;
 }
 
 /*start button css*/

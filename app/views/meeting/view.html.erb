@@ -1,57 +1,59 @@
 <% content_for :title do%>Meetronome<% end %>
 <h2><%= @meeting.name %></h2>
 <div id="main_box">
-  <h3>Current Cost</h3>
-  <div id="current_cost"> 
-    <div class="numeral" id="place6"></div>
-    <div class="decimal">,</div>
-    <div class="numeral" id="place5"></div>
-    <div class="numeral" id="place4"></div>
-    <div class="numeral" id="place3"></div>
-    <div class="decimal">.</div>
-    <div class="numeral" id="place2"></div>
-    <div class="numeral" id="place1"></div>
-  </div>
-
-  <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
-
-  <!--notes -->
-  <h3>Activities</h3>
-  <div id="notes"><%= render :partial => 'notes' %></div>
-
-  <% if @meeting.running? %>
-  <% form_tag({:action => 'addNote'}, :id => "note_form") do %>
-  <p>what's going on now?
-    <%= text_field "newNote", "descr", :size => 20  %>
-    <%= hidden_field "meeting", "id"%>
-    <div class="clear">
-      <%= meet_link_to_function "Go", "$('note_form').submit(0)" -%>
+  <div id="meeting_details">
+    <h3>Current Cost</h3>
+    <div id="current_cost"> 
+      <div class="numeral" id="place6"></div>
+      <div class="decimal">,</div>
+      <div class="numeral" id="place5"></div>
+      <div class="numeral" id="place4"></div>
+      <div class="numeral" id="place3"></div>
+      <div class="decimal">.</div>
+      <div class="numeral" id="place2"></div>
+      <div class="numeral" id="place1"></div>
     </div>
-  </p>
-  <% end %>
 
-  <% end %>
+    <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
+    <div class="clear_all">&nbsp;</div>
 
-  <% if @meeting.running? %>
+    <h3>Activities</h3>
+    <div id="notes"><%= render :partial => 'notes' %></div>
 
-  <div class="clear">
-    <%= meet_link_to "Stop Meeting", { :action => 'stop', :id => @meeting } if session[:owner] -%>
+    <% if @meeting.running? %>
+    <% form_tag({:action => 'addNote'}, :id => "note_form") do %>
+    <p>what's going on now?
+      <%= text_field "newNote", "descr", :size => 20  %>
+      <%= hidden_field "meeting", "id"%>
+      <div class="clear">
+        <%= link_to_function content_tag(:span, "Go"), "$('note_form').submit(0)", :onclick=>"this.blur;", :class=>"button" -%>
+      </div>
+    </p>
+    <% end %>
+
+    <% end %>
+
+    <% if @meeting.running? %>
+
+    <div class="clear">
+      <%= meet_link_to "Stop Meeting", { :action => 'stop', :id => @meeting } if session[:owner] -%>
+    </div>
+    <script type="text/javascript">
+    //not sure if this should go here or not
+    curamount=parseInt($("startcost").firstChild.nodeValue);
+    cents_per_hour = <%= @meeting.cents_per_hour %>;
+    now = new Date();
+    MC.roll(cents_per_hour, now.getTime(), <%= @meeting.cost %>);
+    </script>
+    <%= periodically_call_remote :url => { :action => "update_notes", :id => @meeting } %> 
+    <% else %>
+    <script type="text/javascript"> 
+    MC.set(<%= @meeting.cost %>);
+    </script>
+    <% end %>
   </div>
 
-  <script type="text/javascript">
-  //not sure if this should go here or not
-  curamount=parseInt($("startcost").firstChild.nodeValue);
-  cents_per_hour = <%= @meeting.cents_per_hour %>;
-  now = new Date();
-  MC.roll(cents_per_hour, now.getTime(), <%= @meeting.cost %>);
-  </script>
-  <%= periodically_call_remote :url => { :action => "update_notes", :id => @meeting } %> 
-  <% else %>
-  <script type="text/javascript"> 
-  MC.set(<%= @meeting.cost %>);
-  </script>
-  <% end %>
-
-  <div id="alternative"></div>
+  <div id="alternative">What fun, it's a meeting!</div>
+  <div class="clear_all">&nbsp;</div>
   <%= periodically_call_remote :url => { :controller => :alt_widget, :action => :view, :meeting_id => @meeting.id, :frequency => 15 } %>
 </div>
