@@ -46,7 +46,7 @@
     <%= slider_element 'track2', :minimum => 10000, :maximum => 200000,  :increment => 3, :values => (2..40).inject([]){|a,i|a << i*5000}.inspect, :slide => '$("track2value").value = value; $("salary").value = MC.check_wage_type(value); $("costperhour").value = MC.calc()', :range => 10000..200000, :sliderValue => 50000 %>
   </div>
   <div id="form_buttons" class="clear">
-    <%= link_to_function content_tag(:span, "Start Meeting"), "$('costcalc').submit(0)", :onclick=>"this.blur;$('meeting_cents_per_hour').value = $('costperhour').value * 100", :class=>"button" -%>
+    <%= meet_link_to_function "Start Meeting", "$('meeting_cents_per_hour').value = $('costperhour').value * 100;$('costcalc').submit(0)"  -%>
   </div>
   <% end -%>
 </div>

@@ -1,17 +1,27 @@
 <h2>Please Log in!</h2>
 <div id="main_box">
 <% form_tag do -%>
-<p><label for="login">Login</label><br/>
-<%= text_field_tag 'login' %></p>
 
-<p><label for="password">Password</label><br/>
-<%= password_field_tag 'password' %></p>
+
+<div class="inputcontainer">
+  <fieldset>
+  <legend><label for="login">Login</label></legend>
+   <%= text_field_tag 'login' %>
+  </fieldset>
+</div>
+
+<div class="inputcontainer">
+  <fieldset>
+  <legend><label for="password">Password</label></legend>
+  <%= password_field_tag 'password' %>
+  </fieldset>
+</div>
 
 <!-- Uncomment this if you want this functionality
 <p><label for="remember_me">Remember me:</label>
 <%= check_box_tag 'remember_me' %></p>
 -->
 
-<p><%= submit_tag 'Log in' %></p>
+<div class="clear"><%= meet_link_to_function 'Log in', "this.up('form').submit(0);" %></div>
 <% end -%>
 </div>

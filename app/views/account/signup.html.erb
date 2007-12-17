@@ -1,22 +1,38 @@
 <h2>Join Meetronome!</h2>
 <div id='main_box'>
 <% form_for :user do |f| -%>
-<p><label for="login">Login</label><br/>
-<%= f.text_field :login %>
-<%= error_message_on "user", "login" %>
-</p>
+<div class="inputcontainer">
+  <fieldset>
+  <legend><label for="login">Login</label></legend>
+    <%= f.text_field :login %>
+    <%= error_message_on "user", "login" %>
+  </fieldset>
+</div>
 
-<p><label for="email">Email</label><br/>
-<%= f.text_field :email %>
-<%= error_message_on "user", "email" %></p>
+<div class="inputcontainer">
+  <fieldset>
+  <legend><label for="email">Email</label></legend>
+   <%= f.text_field :email %>
+   <%= error_message_on "user", "email" %>
+  </fieldset>
+</div>
 
-<p><label for="password">Password</label><br/>
-<%= f.password_field :password %>
-<%= error_message_on "user", "password" %></p>
+<div class="inputcontainer">
+  <fieldset>
+  <legend><label for="password">Password</label></legend>
+   <%= f.password_field :password %>
+   <%= error_message_on "user", "password" %>
+  </fieldset>
+</div>
 
-<p><label for="password_confirmation">Confirm Password</label><br/>
-<%= f.password_field :password_confirmation %></p>
 
-<p><%= submit_tag 'Sign up' %></p>
+<div class="inputcontainer">
+  <fieldset>
+  <legend><label for="password_confirmation">Confirm Password</label></legend>
+   <%= f.password_field :password_confirmation %>
+  </fieldset>
+</div>
+
+<div class="clear"><%= meet_link_to_function 'Sign up', 'this.up("form").submit(0);' %></div>
 <% end -%>
 </div>
