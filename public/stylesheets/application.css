@@ -202,3 +202,7 @@ div.slider div {
   width: 182px;
   margin-top: 10px;
 }
+
+.formError {
+  color: #be2000;
+}

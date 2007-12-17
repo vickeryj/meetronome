@@ -23,11 +23,12 @@ class AccountController < ApplicationController
   end
 
   def signup
-    @invite = Invite.find_by_token_and_accepter_user_id(params[:token], nil)
-    unless @invite
-      render :template => 'account/bad_invite'
-      return
-    end
+    #commented code activates invitations.
+    #@invite = Invite.find_by_token_and_accepter_user_id(params[:token], nil)
+    #unless @invite
+    #  render :template => 'account/bad_invite'
+    #  return
+    #end
     @user = User.new(params[:user])
     return unless request.post?
     @user.save!
