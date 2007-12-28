@@ -12,12 +12,12 @@ class MeetingControllerTest < Test::Unit::TestCase
   end
 
   def test_create
-    get :create
+    get :new
     assert_response :success
   end
 
-  def test_save
-    post :save, :meeting => { :cents_per_hour => 1000, :name => "foobar"}
-    assert_redirected_to :action => "view"
+  def test_create
+    post :create, :meeting => { :cents_per_hour => 1000, :name => "foobar"}
+    assert_redirected_to :action => "show"
   end
 end

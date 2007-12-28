@@ -21,7 +21,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :meetings, :controller => 'meeting',
       :member => {:addNote => :post, :stop => :post, :update_notes => :get } do |meeting|
-    map.resources :notes, :controller => 'note'
+    meeting.resources :notes, :controller => 'note', :member => {:stop => :any}
   end
   
   

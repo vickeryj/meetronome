@@ -34,7 +34,7 @@ class MeetingController < ApplicationController
   end
 
 
-  
+  #this should probably be moved to the index method in note controller but I am not sure how yet.
   def update_notes
     @meeting = Meeting.find_by_token(params[:id])
     
@@ -51,21 +51,8 @@ class MeetingController < ApplicationController
 
   def stop
     @meeting = Meeting.find_by_token(params[:id])
-
     @meeting.stop if cookies[:meetingowner] == @meeting.owner_cookie
     redirect_to :action => 'show', :id => @meeting
   end
 
-  def addNote
-    @meeting = Meeting.find(params[:meeting][:token])
-    @meeting.stop_notes
-    if @meeting.running?
-      note = Note.new(params[:newNote])
-      note.meeting = @meeting
-      if (note.descr != "")
-        note.save
-      end
-    end
-    redirect_to @meeting
-  end
 end

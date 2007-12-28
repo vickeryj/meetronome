@@ -36,11 +36,6 @@ class AccountControllerTest < Test::Unit::TestCase
     end
   end
 
-  def test_should_require_token_for_signup
-    get :signup
-    assert_response :success
-    assert_template 'bad_invite'
-  end
 
   def test_should_require_login_on_signup
     assert_no_difference User, :count do

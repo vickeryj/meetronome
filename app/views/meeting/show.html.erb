@@ -21,12 +21,11 @@
     <div id="notes"><%= render :partial => 'notes' %></div>
 
     <% if @meeting.running? %>
-    <% form_tag({:action => 'addNote'}, :id => "note_form") do %>
+    <% form_tag(meeting_notes_url(@meeting), :id => "note_form", :method => :post) do %>
     <p>what's going on now?
-      <%= text_field "newNote", "descr", :size => 20  %>
-      <%= hidden_field "meeting", "id"%>
+      <%= text_field "note", "descr", :size => 20  %>
       <div class="clear">
-        <%= link_to_function content_tag(:span, "Go"), "$('note_form').submit(0)", :onclick=>"this.blur;", :class=>"button" -%>
+        <%= link_to_function content_tag(:span, "Add Note"), "$('note_form').submit(0)", :onclick=>"this.blur;", :class=>"button" -%>
       </div>
     </p>
     <% end %>
