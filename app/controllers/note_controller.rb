@@ -3,6 +3,6 @@ class NoteController < ApplicationController
     note = Note.find(@params[:id])
     note.stop
     @meeting = note.meeting
-    redirect_to :controller => 'meeting', :action => 'view', :id => @meeting
+    redirect_to :controller => 'meeting', :action => 'show', :id => @meeting
   end
 end

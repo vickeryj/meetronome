@@ -18,10 +18,15 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/service.wsdl', :action => 'wsdl'
 
   #this probably needs some work
-  map.connect ':token', :action => 'view', :controller => 'meeting'
+  
+  map.resources :meetings, :controller => 'meeting',
+      :member => {:addNote => :post, :stop => :post, :update_notes => :get } do |meeting|
+    map.resources :notes, :controller => 'note'
+  end
+  
   
   #this is terrible and needs to be fixed.  the meeting controller has ugly method names
-  map.connect '', :controller => 'meeting', :action => 'create'
+  map.connect '', :controller => 'meeting', :action => 'new'
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
 end

@@ -1,25 +1,25 @@
 class MeetingController < ApplicationController
 
-  def create
+  def new
     @meeting = Meeting.new()
   end
 
 
-  def save
+  def create
     @meeting = Meeting.new(params[:meeting])
     logger.debug(params.to_s)
     if (@meeting.save)
       @meeting.start
       session[:owner] = true
       cookies[:meetingowner] = {:value => @meeting.owner_cookie, :expires => 1.week.from_now}      
-      redirect_to :action => 'view', :token => @meeting.token    
+      redirect_to :action => 'show', :id => @meeting    
     else
-      render :action => 'create'
+      render :action => 'new'
     end
   end
   
-  def view
-    @meeting = Meeting.find_by_token(params[:token])
+  def show
+    @meeting = Meeting.find_by_token(params[:id])
     #if flash[:setcookie]
     #  cookies[:meetingowner] = {:value => @meeting.owner_cookie, :expires => 1.week.from_now}
     #end
@@ -36,7 +36,7 @@ class MeetingController < ApplicationController
 
   
   def update_notes
-    @meeting = Meeting.find(params[:id])
+    @meeting = Meeting.find_by_token(params[:id])
     
     render :update do |page|
       if (@meeting.stopped? and (Time.now - @meeting.stopped_at) < 300)
@@ -50,14 +50,14 @@ class MeetingController < ApplicationController
 
 
   def stop
-    @meeting = Meeting.find(params[:id])
+    @meeting = Meeting.find_by_token(params[:id])
 
     @meeting.stop if cookies[:meetingowner] == @meeting.owner_cookie
-    redirect_to :action => 'view', :id => @meeting
+    redirect_to :action => 'show', :id => @meeting
   end
 
   def addNote
-    @meeting = Meeting.find(params[:meeting][:id])
+    @meeting = Meeting.find(params[:meeting][:token])
     @meeting.stop_notes
     if @meeting.running?
       note = Note.new(params[:newNote])
@@ -66,6 +66,6 @@ class MeetingController < ApplicationController
         note.save
       end
     end
-    redirect_to :action => 'view', :id => @meeting
+    redirect_to @meeting
   end
 end

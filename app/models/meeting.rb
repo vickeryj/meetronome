@@ -20,6 +20,10 @@ composed_of :cost_per_hour, :class_name => "Money", :mapping => [%w(cents_per_ho
 include TokenGenerator
 before_create :set_token
 
+def to_param
+  token
+end
+
 def start
   period = Period.new
   periods << period

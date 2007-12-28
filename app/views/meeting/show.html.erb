@@ -36,7 +36,7 @@
     <% if @meeting.running? %>
 
     <div class="clear">
-      <%= meet_link_to "Stop Meeting", { :action => 'stop', :id => @meeting } if session[:owner] -%>
+      <%= meet_link_to "Stop Meeting", stop_meeting_url(@meeting), :method => :post if session[:owner] -%>
     </div>
     <script type="text/javascript">
     //not sure if this should go here or not
@@ -45,7 +45,7 @@
     now = new Date();
     MC.roll(cents_per_hour, now.getTime(), <%= @meeting.cost %>);
     </script>
-    <%= periodically_call_remote :url => { :action => "update_notes", :id => @meeting } %> 
+    <%= periodically_call_remote :url => update_notes_meeting_url(@meeting), :method => :get %> 
     <% else %>
     <script type="text/javascript"> 
     MC.set(<%= @meeting.cost %>);
