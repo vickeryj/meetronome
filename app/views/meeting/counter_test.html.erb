@@ -6,19 +6,27 @@
       position: absolute;
       top: 200px;
       left: 100px;
-      background-color: red;
+    }
+    #digit_background {
+      position: absolute;
+      top: 200px;
+      left: 100px;
+      width: 80px;
+      height: 40px;
+	    background-image: url("/images/digit_background.png");
+	    background-repeat: repeat-x;
     }
   </style>
+  <div id="digit_background">
+  </div>
   <div id="digit">
     <p>One</p>
     <p>Two</p>
     <p>Three</p>
     <p>Four</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
   </div>
 
-  <div id="hi">hi</div>
+  <div>hi</div>
   <div>hi</div>
   <div>hi</div>
   <div>hi</div>
@@ -29,9 +37,11 @@
   <p id="link"><%= link_to_function("move it","startMoving();"); %></p>
 
   <script type="text/javascript">
-    $('digit').style.clip = 'rect(10,100,40,0)';
+    var digitStyle = $('digit').style;
     var move_amount = 10;
     var intevalId;
+    
+    digitStyle.clip = 'rect(0,100,40,0)';
     function startMoving() {
   	  intervalId = setInterval("move()",40);
       $('link').innerHTML = '<%= link_to_function("stop it","stopMoving();"); %>';
@@ -42,16 +52,13 @@
     }
 
     function move() {
-      $('digit').style.clip = 'rect('+(move_amount+10)+',100,'+(move_amount+40)+',0)';
-      $('digit').style.top = (200-move_amount)+"px";
+      digitStyle.clip = 'rect('+(move_amount)+',100,'+(move_amount+40)+',0)';
+      digitStyle.top = (200-move_amount)+"px";
       move_amount += 1;
-      $('hi').innerHTML = move_amount;
       if(move_amount >= 140) {
         move_amount = 1;
-        $('digit').hide();
-        $('digit').style.clip = 'rect(10,100,40,0)';
-        $('digit').style.top = '200px';
-        $('digit').show();
+        digitStyle.clip = 'rect(0,100,40,0)';
+        digitStyle.top = '200px';
       }
     }
   </script>
