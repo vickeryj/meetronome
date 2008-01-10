@@ -1,0 +1,59 @@
+<h2>testing counters</h2>
+<div id="main_box">
+
+  <style type="text/css">
+    #digit {
+      position: absolute;
+      top: 200px;
+      left: 100px;
+      background-color: red;
+    }
+  </style>
+  <div id="digit">
+    <p>One</p>
+    <p>Two</p>
+    <p>Three</p>
+    <p>Four</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+  </div>
+
+  <div id="hi">hi</div>
+  <div>hi</div>
+  <div>hi</div>
+  <div>hi</div>
+  <div>hi</div>
+  <div>hi</div>
+  <div>hi</div>
+  <div>hi</div>
+  <p id="link"><%= link_to_function("move it","startMoving();"); %></p>
+
+  <script type="text/javascript">
+    $('digit').style.clip = 'rect(10,100,40,0)';
+    var move_amount = 10;
+    var intevalId;
+    function startMoving() {
+  	  intervalId = setInterval("move()",40);
+      $('link').innerHTML = '<%= link_to_function("stop it","stopMoving();"); %>';
+    }
+    function stopMoving() {
+      clearInterval(intervalId);
+      $('link').innerHTML = '<%= link_to_function("move it","startMoving();"); %>';
+    }
+
+    function move() {
+      $('digit').style.clip = 'rect('+(move_amount+10)+',100,'+(move_amount+40)+',0)';
+      $('digit').style.top = (200-move_amount)+"px";
+      move_amount += 1;
+      $('hi').innerHTML = move_amount;
+      if(move_amount >= 140) {
+        move_amount = 1;
+        $('digit').hide();
+        $('digit').style.clip = 'rect(10,100,40,0)';
+        $('digit').style.top = '200px';
+        $('digit').show();
+      }
+    }
+  </script>
+
+</div>
