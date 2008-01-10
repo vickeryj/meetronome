@@ -76,9 +76,16 @@ var MC = function() {
   }
 
   /*might be neat to set this automatically by reading the css style info or something*/
-  CHEIGHT = 36;
-  CDIGITS = 6;
+  var CHEIGHT = 36;
+  var CDIGITS = 6;
 
+  /*
+   * This is sort of hacky, since this function gets called all the time
+   * I took the local variable and made them global so they don't
+   * have to be garbage collected.
+   */
+  var offset = 0;
+  var total = 0;
   function set(total, rolling_digits) {
   	offset = total - Math.floor(total);
   	total = total - offset;
@@ -90,43 +97,66 @@ var MC = function() {
   		{
   			offset = 0;
   		}
-                  if (rolling_digits >= i)
-                  {
-                  offset = total/10 - Math.floor(total/10);
+      if (rolling_digits >= i)
+      {
+        offset = total/10 - Math.floor(total/10);
   		}
-                  total = Math.floor(total/10);
+      total = Math.floor(total/10);
   	}
-          while (total > 0)
-          {
-            if ((CDIGITS +1) % 3 == 0)
-            {
-              new Insertion.Top($("current_cost"), "<div class='decimal'>,</div>")
-            }
-
-            CDIGITS += 1;
-            new Insertion.Top($("current_cost"), "<div class='numeral' id='place" +String(CDIGITS)+"'></div>");
-
-            placeset(CDIGITS, total % 10);
-            total = Math.floor(total/10);
-
-          }
+    while (total > 0)
+    {
+      if ((CDIGITS +1) % 3 == 0)
+      {
+        new Insertion.Top($("current_cost"), "<div class='decimal'>,</div>")
+      }
+      CDIGITS += 1;
+      new Insertion.Top($("current_cost"), "<div class='numeral' id='place" +String(CDIGITS)+"'></div>");
+      storePlaceStyle(CDIGITS);
+      placeset(CDIGITS, total % 10);
+      total = Math.floor(total/10);
+    }
   }
   
+  var milliseconds_per_cent = 0;
+  var placeStyles = [];
+  var rollers = 0;
+  var intervalId;
+
+  /*
+   *  Store the style of each place in an array for faster lookup
+   */
+  function storePlaceStyle(place) {
+    placeStyles[place] =  $("place" + String(place)).style;
+  }
+
+  /*
+   * move the number strip at a specified place by a specified amount
+   */
   function placeset(sig_place, value) {
-  	$("place" + String(sig_place)).style.backgroundPosition = "0px " + String(value*-CHEIGHT) + "px" 
+    placeStyles[sig_place].backgroundPosition = "0px " + String(value*-CHEIGHT) + "px" 
   }
   
-  /*can add start amount to this to allow ajax syncing*/
-  function roll(cents_per_hour, start_time, start_amount) {
-  	milliseconds_per_cent = 3600000/cents_per_hour;
-  	now = new Date();
-  	duration = now.getTime() - start_time;
-  	cents = duration/milliseconds_per_cent + start_amount;
+  /*
+   * Initialize the counter
+   */
+  function init(cents_per_hour, start_time, start_amount) {
+    milliseconds_per_cent = 3600000/cents_per_hour;
+  	rollers = Math.ceil(Math.log(40/milliseconds_per_cent)/Math.LN10);
+    for (i=1; i <= 6; i++) {
+      storePlaceStyle(i);
+    }
+  	intervalId = setInterval("MC.roll(" + String(cents_per_hour) +", "+String(start_time) + ", " + String(start_amount) + ");", 40);
+  }
 
-  	rollers = Math.ceil(Math.log(40/milliseconds_per_cent)/Math.LN10)
-          set(cents, rollers );
-  	/*there must be a better way to refer to the roll callback create a function pointer or something)*/
-  	setTimeout("MC.roll(" + String(cents_per_hour) +", "+String(start_time) + ", " + String(start_amount) + ");", 40);
+  /*
+   * can add start amount to this to allow ajax syncing
+   * TODO: need a sync method that cancels the current interval and starts
+   * a new one (use intervalId to cancel)
+   */
+  function roll(cents_per_hour, start_time, start_amount) {
+  	duration = new Date().getTime() - start_time;
+  	cents = duration/milliseconds_per_cent + start_amount;
+    set(cents, rollers );
   }
   
   return {roll : roll,
@@ -135,7 +165,8 @@ var MC = function() {
           calc : calc,
           do_send : do_send,
           check_wage_type : check_wage_type,
-          inc_totals_at_rate : inc_totals_at_rate}
+          inc_totals_at_rate : inc_totals_at_rate,
+          init :init}
   
 }();
 

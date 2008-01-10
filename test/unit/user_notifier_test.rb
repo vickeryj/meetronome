@@ -16,6 +16,11 @@ class UserNotifierTest < Test::Unit::TestCase
     @expected.set_content_type "text", "plain", { "charset" => CHARSET }
   end
 
+  def test_truth
+    #gotta test something, autotest failures make me cry
+    assert true
+  end
+
   private
     def read_fixture(action)
       IO.readlines("#{FIXTURES_PATH}/user_notifier/#{action}")
