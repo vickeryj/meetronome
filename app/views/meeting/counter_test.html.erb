@@ -4,14 +4,21 @@
   <style type="text/css">
     #digit {
       position: absolute;
-      top: 208px;
-      left: 100px;
+      top: 240px;
+      left: 104px;
+      font-size: 36px;
+      color: black;
+    }
+    #digit p {
+      margin: 0px;
+      padding: 0px;
+      border: 0px;
     }
     #digit_background {
       position: absolute;
       top: 200px;
       left: 100px;
-      width: 80px;
+      width: 30px;
       height: 40px;
 	    background-image: url("/images/digit_background.png");
 	    background-repeat: repeat-x;
@@ -20,12 +27,23 @@
   <div id="digit_background">
   </div>
   <div id="digit">
-    <p>One</p>
-    <p>Two</p>
-    <p>Three</p>
-    <p>Four</p>
+    <p>1</p>
+    <p>2</p>
+    <p>3</p>
+    <p>4</p>
+    <p>5</p>
+    <p>6</p>
+    <p>7</p>
+    <p>8</p>
+    <p>9</p>
   </div>
 
+  <div>hi</div>
+  <div>hi</div>
+  <div>hi</div>
+  <div>hi</div>
+  <div>hi</div>
+  <div>hi</div>
   <div>hi</div>
   <div>hi</div>
   <div>hi</div>
@@ -37,11 +55,11 @@
   <p id="link"><%= link_to_function("move it","startMoving();"); %></p>
 
   <script type="text/javascript">
-    var digitStyle = $('digit').style;
-    var move_amount = 1;
+    var digit = $('digit');
+    var digitStyle = digit.style;
+    var move_amount = -40;
     var intevalId;
-    
-    digitStyle.clip = 'rect(0,100,40,0)';
+    digitStyle.clip = 'rect(0,100,0,0)';
     function startMoving() {
   	  intervalId = setInterval("move()",40);
       $('link').innerHTML = '<%= link_to_function("stop it","stopMoving();"); %>';
@@ -55,10 +73,9 @@
       digitStyle.clip = 'rect('+(move_amount)+',100,'+(move_amount+40)+',0)';
       digitStyle.top = (200-move_amount)+"px";
       move_amount += 1;
-      if(move_amount >= 140) {
-        move_amount = 1;
-        digitStyle.clip = 'rect(0,100,40,0)';
-        digitStyle.top = '208px';
+      if(move_amount >= 390) {
+        move_amount = -40;
+        digitStyle.clip = 'rect(0,100,0,0)';
       }
     }
   </script>
