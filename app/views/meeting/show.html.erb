@@ -1,5 +1,5 @@
 <% content_for :title do%>Meetronome<% end %>
-<h2><%= @meeting.name %></h2>
+<h2><%= h @meeting.name %></h2>
 <div id="main_box">
   <div id="meeting_details">
     <h3>Current Cost</h3>
@@ -17,19 +17,18 @@
     <div style="visibility: hidden"><span id='startcost'><%= @meeting.cost%></span></div>
     <div class="clear_all">&nbsp;</div>
 
-    <h3>Activities</h3>
+    <h3>Notes</h3>
     <div id="notes"><%= render :partial => 'notes' %></div>
 
     <% if @meeting.running? %>
+    <div id="note_form">
     <% form_tag(meeting_notes_url(@meeting), :id => "note_form", :method => :post) do %>
-    <p>what's going on now?
+    What is happening now?<br/>
       <%= text_field "note", "descr", :size => 20  %>
-      <div class="clear">
-        <%= link_to_function content_tag(:span, "Add Note"), "$('note_form').submit(0)", :onclick=>"this.blur;", :class=>"button" -%>
-      </div>
-    </p>
+        <%= link_to_function "Track it!", "$('note_form').submit(0)" -%>
+    
     <% end %>
-
+    </div>
     <% end %>
 
     <% if @meeting.running? %>

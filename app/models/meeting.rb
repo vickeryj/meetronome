@@ -14,7 +14,7 @@
 require 'money'
 class Meeting < ActiveRecord::Base
 has_many :periods
-has_many :notes, :order => "created_at desc"
+has_many :notes, :order => "created_at asc"
 composed_of :cost_per_hour, :class_name => "Money", :mapping => [%w(cents_per_hour cents), %w(currency currency)]
 
 include TokenGenerator

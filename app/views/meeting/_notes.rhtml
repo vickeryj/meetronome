@@ -1,12 +1,10 @@
-    <ul>
-      <% for n in @meeting.notes %>
-      <li>
-        <%= n.descr %>
-      <% if not n.running? %>
-          -- <%= number_to_currency(n.cost/100.to_f) %>
-      <% else %>
-      for <%= distance_of_time_in_words(Time.now - n.created_at)%> (<%= link_to "that's not happening anymore", stop_meeting_note_url(@meeting, n)%>)
-      <% end %>
-      </li>
-    <% end %>
-    </ul>
+<% for n in @meeting.notes %>
+<div class="note">
+  <div class="note_descr">
+    <%= h n.descr %>  <%= n.running? ? "(" + link_to("stop", stop_meeting_note_url(@meeting, n)) + ")" : "(over)" %>
+  </div>
+  <span class="note_cost">
+    <%= number_to_currency(n.cost/100.to_f) %>
+  </span>
+</div>
+<% end %>

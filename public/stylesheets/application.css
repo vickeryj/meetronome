@@ -152,6 +152,7 @@ div.inputcontainer {
     width: 100%;
 }
 
+
 a.button {
     background: transparent url('/images/smaller_buttons_r.png') no-repeat scroll top right;
     color: #444;
@@ -164,6 +165,7 @@ a.button {
     padding-right: 13px; /* sliding doors padding */
     text-decoration: none;
 }
+
 
 a.button span {
     background: transparent url('/images/smaller_buttons_l.png') no-repeat;
@@ -184,6 +186,9 @@ a.button:active span {
     padding: 9px 0 7px 13px; /* push text down 2px */
 }
 
+a.right{
+  float:right;
+}
 
 div.slider {
   background: #e2d5c4 none repeat scroll 0%;
@@ -212,3 +217,29 @@ div.slider div {
 .formError {
   color: #be2000;
 }
+
+#notes {
+  width: 250px;
+  font-family: Courier;
+  border-top: 1px dashed;
+  border-bottom: 1px dashed;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.note {
+  margin-top: .2em;
+  position: relative;
+}
+
+.note_descr {
+  text-align: left;
+  width: 200px;
+}
+ 
+.note_cost {
+  position: absolute;
+  right:0px;
+  top:0px;
+} 
+
+#note_form

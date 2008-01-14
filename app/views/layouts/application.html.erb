@@ -16,7 +16,7 @@
     <div class="clear" id="user_menu" >
       <%= meet_link_to("Login", {:controller => 'account', :action => 'login'}) unless logged_in? -%>
       <%= meet_link_to("Signup", {:controller => 'account', :action => 'signup'}) unless logged_in? -%>
-      <%= meet_link_to("Logout", {:controller=> 'account', :action => 'logout'}) if logged_in?%>
+      <%= meet_link_to("Logout", {:controller=> 'account', :action => 'logout'}) if logged_in? %>
     </div>
     <%= yield :layout %>
   </div> 
