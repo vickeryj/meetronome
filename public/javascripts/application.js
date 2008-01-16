@@ -77,7 +77,7 @@ var MC = function() {
 
   /*might be neat to set this automatically by reading the css style info or something*/
   var CHEIGHT = 36;
-  var CDIGITS = 6;
+  var CDIGITS = 3;
 
   /*
    * This is sort of hacky, since this function gets called all the time
@@ -142,7 +142,7 @@ var MC = function() {
   function init(cents_per_hour, start_time, start_amount) {
     milliseconds_per_cent = 3600000/cents_per_hour;
   	rollers = Math.ceil(Math.log(40/milliseconds_per_cent)/Math.LN10);
-    for (i=1; i <= 6; i++) {
+    for (i=1; i <= CDIGITS; i++) {
       storePlaceStyle(i);
     }
   	intervalId = setInterval("MC.roll(" + String(cents_per_hour) +", "+String(start_time) + ", " + String(start_amount) + ");", 40);

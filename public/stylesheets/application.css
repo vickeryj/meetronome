@@ -136,6 +136,16 @@ div.inputcontainer {
 	background-image: url("/images/numbers36.png");
 	background-repeat: repeat-y;
 }
+#currency_sign{
+	font-size: 36px;
+  vertical-align: top;
+  float: left;
+}
+
+#current_cost {
+  padding-top: 7px;
+}
+
 .decimal {
 	width: 12px;
 	float: left;
