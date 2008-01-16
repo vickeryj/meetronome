@@ -21,7 +21,7 @@
     <div id="notes"><%= render :partial => 'notes' %></div>
 
     <% if @meeting.running? %>
-    <div id="note_form">
+    <div id="note_form_wrapper">
     <% form_tag(meeting_notes_url(@meeting), :id => "note_form", :method => :post) do %>
     What is happening now?<br/>
       <%= text_field "note", "descr", :size => 20  %>
