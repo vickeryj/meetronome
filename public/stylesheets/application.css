@@ -210,12 +210,8 @@ div.slider {
 }
 
 div.slider div {
-  background: #be5843 none repeat scroll 0%;
-  border:1px outset white;
-  height:15px;
   margin-top:-5px;
   position:absolute;
-  width:8px;
 }
 
 #user_menu {
