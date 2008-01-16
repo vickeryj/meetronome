@@ -49,7 +49,7 @@ module ActionView
         handle = options[:handles] || "$('#{element_id}').firstChild"
         options.delete :handles
                 
-        javascript_tag("#{prepare}new Control.Slider(#{handle},'#{element_id}', #{options_for_javascript(options)})")
+        javascript_tag("#{prepare} var #{element_id} = new Control.Slider(#{handle},'#{element_id}', #{options_for_javascript(options)})")
       end
       
       # Creates a simple slider control and associates it with a hidden text field

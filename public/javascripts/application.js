@@ -170,8 +170,19 @@ var MC = function() {
   
 }();
 
+function observeSliderTextField(textField, slider) {
+  textField.observe('keyup',function() {
+    setSliderValue(slider,textField.value);
+  });
+}
 
-
-
-
-
+//from: http://www.aldenta.com/examples/script.aculo.us/slider-text-field.html
+function setSliderValue(slider, value) {
+  // due to onChange code above we need this or
+  // a 0 will be put in the text box when you delete the value
+  if (value == '') return;
+  if (isNaN(value))
+    slider.setValue(0);
+  else
+    slider.setValue(value/100);
+}
