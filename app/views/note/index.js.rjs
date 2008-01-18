@@ -1,0 +1,5 @@
+if (@meeting.stopped? and (Time.now - @meeting.stopped_at) < 300)
+  page << "window.location.reload()"
+elsif (@meeting.changed_in_minute?)
+  page.replace_html 'notes', :partial => 'meeting/notes'
+end
