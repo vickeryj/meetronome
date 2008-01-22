@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 9) do
+ActiveRecord::Schema.define(:version => 10) do
 
   create_table "alt_widgets", :force => true do |t|
     t.string   "name"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 9) do
     t.datetime "last_used_at"
     t.integer  "views"
     t.text     "data"
+    t.string   "type"
   end
 
   create_table "invites", :force => true do |t|

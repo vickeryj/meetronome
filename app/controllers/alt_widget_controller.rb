@@ -1,7 +1,7 @@
 class AltWidgetController < ApplicationController
   #verify :xhr => true
-  def view
-    meeting = Meeting.find(params[:meeting_id])
+  def show
+    meeting = Meeting.find_by_token(params[:meeting_id])
     alt = AltWidget.find_random()
     render :update do |page|
       alt.render(meeting, page, :alternative)

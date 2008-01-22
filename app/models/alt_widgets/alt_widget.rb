@@ -18,22 +18,19 @@ class AltWidget < ActiveRecord::Base
   def render(meeting, page, tag)
   end
 
-  def loaddata()
-  end
+  #def render_with_accounting(meeting, page, tag)
+  #  self.last_used_at = DateTime.now
+  #  self.views = 1 + (self.views || 0)
+  #  self.save!
+  #  #maybe set a popularity count or some kind of click through tracking?
+  #  render_without_accounting(meeting, page, tag)
+  #end
 
-  def render_with_accounting(meeting, page, tag)
-    self.last_used_at = DateTime.now
-    self.views = 1 + (self.views || 0)
-    self.save!
-    #maybe set a popularity count or some kind of click through tracking?
-    render_without_accounting(meeting, page, tag)
-  end
-
-  def after_find
-    instance_eval(calc) unless calc.nil?
-    sing = class << self; self; end
-    sing.send :alias_method_chain, :render, :accounting
-  end
+  #def after_find
+  #  instance_eval(calc) unless calc.nil?
+  #  sing = class << self; self; end
+  #  sing.send :alias_method_chain, :render, :accounting
+  #end
   
   def self.find_random
     #from jonathan viney

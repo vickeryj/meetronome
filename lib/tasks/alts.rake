@@ -19,3 +19,25 @@ namespace :db do
     end
   end
 end
+
+namespace :meetronome do
+  desc "insert the alt widget singletons in the db"
+
+  task :build_alts => :environment do
+    require 'find'
+    Find.find( RAILS_ROOT + '/app/models/alt_widgets' ) do |file_name|
+      if File.basename(file_name)[0] == ?.
+        Find.prune
+      else
+        if /.rb$/ =~ file_name
+          require file_name
+        end
+      end
+    end
+
+    Object.subclasses_of(AltWidget).each do |widget|
+      widget.create! unless widget.find :first
+      puts widget.name
+    end
+  end
+end
