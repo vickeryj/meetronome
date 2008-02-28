@@ -176,7 +176,7 @@ function observeSliderTextField(textField, slider) {
 }
 
 //from: http://www.aldenta.com/examples/script.aculo.us/slider-text-field.html
-function setSliderValue(slider, textField) {
+function setSliderValue(event,slider, textField) {
   value = textField.value;
   // due to onChange code above we need this or
   // a 0 will be put in the text box when you delete the value
@@ -184,5 +184,5 @@ function setSliderValue(slider, textField) {
   if (isNaN(value))
     slider.setValue(0);
   else
-    slider.setValue(value/100);
+    slider.setValue(value);
 }
