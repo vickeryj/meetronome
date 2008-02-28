@@ -171,13 +171,13 @@ var MC = function() {
 }();
 
 function observeSliderTextField(textField, slider) {
-  textField.observe('keyup',function() {
-    setSliderValue(slider,textField.value);
-  });
+  textField.observe('keyup', 
+      setSliderValue.bindAsEventListener(this,slider,textField));
 }
 
 //from: http://www.aldenta.com/examples/script.aculo.us/slider-text-field.html
-function setSliderValue(slider, value) {
+function setSliderValue(slider, textField) {
+  value = textField.value;
   // due to onChange code above we need this or
   // a 0 will be put in the text box when you delete the value
   if (value == '') return;
