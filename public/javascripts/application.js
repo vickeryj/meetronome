@@ -170,14 +170,20 @@ var MC = function() {
   
 }();
 
-function observeSliderTextField(textField, slider) {
+function observeSliderTextField(textField, slider, wage_slider) {
   textField.observe('keyup', 
-      setSliderValue.bindAsEventListener(this,slider,textField));
+      setSliderValue.bindAsEventListener(this,slider,textField, wage_slider));
 }
 
 //from: http://www.aldenta.com/examples/script.aculo.us/slider-text-field.html
-function setSliderValue(event,slider, textField) {
-  value = textField.value;
+function setSliderValue(event, slider, textField, wage_slider) {
+  if(wage_slider && !$("wage_type_annual").checked) {
+    value = textField.value*50*40;
+  }
+  else {
+    value = textField.value;
+  }
+
   // due to onChange code above we need this or
   // a 0 will be put in the text box when you delete the value
   if (value == '') return;
