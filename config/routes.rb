@@ -27,7 +27,7 @@ ActionController::Routing::Routes.draw do |map|
   
   
   #this is terrible and needs to be fixed.  the meeting controller has ugly method names
-  map.connect '', :controller => 'meeting', :action => 'new'
+  map.connect '', :controller => 'meeting', :action => 'index'
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
 end
