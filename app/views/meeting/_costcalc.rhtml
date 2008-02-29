@@ -2,7 +2,7 @@
 <%= error_messages_for 'meeting' %>
 <div id="main_box">
   <h3>Tell us about your meeting</h3>
-  <% form_for @meeting, :html => {:id => "costcalc"} do -%>
+  <% form_for @meeting, :html => {:id => "costcalc", :autocomplete => "off"} do -%>
   <div id="left_form">
     <div class="inputcontainer">
       <fieldset>
