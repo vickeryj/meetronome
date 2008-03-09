@@ -1,4 +1,15 @@
-<h2>Welcome</h2>
+<h2>Welcome to Meetronome!</h2>
 <div id="main_box">
-  <%= link_to "Create a new meeting", new_meeting_url %>
+  <h3>Ever wonder how much an "All Hands" meeting costs?</h3>
+    <p>Meetronome will show you the cost of your meeting as you sit in it!</p>
+  <h3>Want to keep track of what goes on in a meeting?</h3>
+    <p>Meetronome keeps track of what's going on, and lets you share your notes with anyone else in the meeting.</p>
+  <h3>Bored?</h3>
+    <p>Meetronome is chock full of great tips and advice!</p>
+  <h3>Get Started!</h3>
+  <ul>
+    <li><%= link_to "Start a meeting", new_meeting_url %></li>
+    <li><%= link_to "Signup", {:controller => 'account', :action => 'login'} %></li>
+    <li><%= link_to "Login", {:controller => 'account', :action => 'signup'}%></li>
+  </ul>
 </div>
