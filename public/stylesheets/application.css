@@ -34,6 +34,7 @@ h3 {
   font-family: Verdana, sans-serif;
   color: #be5843;
   letter-spacing: 1px;
+  margin-bottom: 5px;
 }
 
 input {
@@ -46,6 +47,14 @@ input {
 
 a {
   color: #551f00;
+}
+
+p {
+  margin-right: 100px;
+  margin-top: 5px;
+  color: #551f00;
+  padding: 10px;
+  font-size: .9em;
 }
 
 fieldset {
