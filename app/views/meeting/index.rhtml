@@ -7,9 +7,11 @@
   <h3>Bored?</h3>
     <p>Meetronome is chock full of great tips and advice!</p>
   <h3>Get Started!</h3>
-  <ul>
+  <ul class="horizontal">
     <li><%= link_to "Start a meeting", new_meeting_url %></li>
+    <li>::</li>
     <li><%= link_to "Signup", {:controller => 'account', :action => 'login'} %></li>
+    <li>::</li>
     <li><%= link_to "Login", {:controller => 'account', :action => 'signup'}%></li>
   </ul>
 </div>

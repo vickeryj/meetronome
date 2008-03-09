@@ -71,6 +71,15 @@ legend {
   color: #551f00;
 }
 
+ul.horizontal {
+  padding-left: 10px;
+}
+ul.horizontal li {
+  list-style-type: none;
+  display: inline;
+  font-size: .9em;
+}
+
 #content {
   background-image: url(/images/middle.png);
   background-repeat: repeat-y;
