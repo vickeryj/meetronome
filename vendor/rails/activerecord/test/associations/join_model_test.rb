@@ -410,6 +410,12 @@ class AssociationsJoinModelTest < Test::Unit::TestCase
     authors(:david).author_favorites.create :favorite_author => new_author
     assert_equal new_author, authors(:david).reload.favorite_authors.first
   end
+  
+  def test_has_many_through_uses_conditions_specified_on_the_has_many_association
+    author = Author.find(:first)
+    assert !author.comments.blank?
+    assert author.nonexistant_comments.blank?
+  end
 
   def test_has_many_through_uses_correct_attributes
     assert_nil posts(:thinking).tags.find_by_name("General").attributes["tag_id"]
@@ -532,6 +538,12 @@ class AssociationsJoinModelTest < Test::Unit::TestCase
 
   def test_has_many_through_has_many_with_sti
     assert_equal [comments(:does_it_hurt)], authors(:david).special_post_comments
+  end
+  
+  def test_uniq_has_many_through_should_retain_order
+    comment_ids = authors(:david).comments.map(&:id)
+    assert_equal comment_ids.sort, authors(:david).ordered_uniq_comments.map(&:id)
+    assert_equal comment_ids.sort.reverse, authors(:david).ordered_uniq_comments_desc.map(&:id)
   end
 
   private

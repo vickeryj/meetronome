@@ -268,10 +268,16 @@ module ActionController
   #    #...
   #  end
   #
+  # == View a list of all your routes
+  #
+  # Run <tt>rake routes</tt>.
+  #
   module Routing
     SEPARATORS = %w( / . ? )
 
     HTTP_METHODS = [:get, :head, :post, :put, :delete]
+
+    ALLOWED_REQUIREMENTS_FOR_OPTIMISATION = [:controller, :action].to_set
 
     # The root paths which may contain controller files
     mattr_accessor :controller_paths
@@ -353,6 +359,7 @@ module ActionController
         @segments = []
         @requirements = {}
         @conditions = {}
+        @optimise = true
       end
 
       # Indicates whether the routes should be optimised with the string interpolation
@@ -1009,7 +1016,7 @@ module ActionController
         path = "/#{path}" unless path[0] == ?/
         path = "#{path}/" unless path[-1] == ?/
 
-        path = "/#{options[:path_prefix]}#{path}" if options[:path_prefix]
+        path = "/#{options[:path_prefix].to_s.gsub(/^\//,'')}#{path}" if options[:path_prefix]
 
         segments = segments_for_route_path(path)
         defaults, requirements, conditions = divide_route_options(segments, options)
@@ -1021,13 +1028,16 @@ module ActionController
         route.requirements = requirements
         route.conditions = conditions
 
-        # Routes cannot use the current string interpolation method
-        # if there are user-supplied :requirements as the interpolation
-        # code won't raise RoutingErrors when generating
-        route.optimise = !options.key?(:requirements)
         if !route.significant_keys.include?(:action) && !route.requirements[:action]
           route.requirements[:action] = "index"
           route.significant_keys << :action
+        end
+
+        # Routes cannot use the current string interpolation method
+        # if there are user-supplied :requirements as the interpolation
+        # code won't raise RoutingErrors when generating
+        if options.key?(:requirements) || route.requirements.keys.to_set != Routing::ALLOWED_REQUIREMENTS_FOR_OPTIMISATION
+          route.optimise = false
         end
 
         if !route.significant_keys.include?(:controller)
@@ -1038,19 +1048,19 @@ module ActionController
       end
     end
 
-    class RouteSet #:nodoc:
+    class RouteSet #:nodoc: 
       # Mapper instances are used to build routes. The object passed to the draw
       # block in config/routes.rb is a Mapper instance.
       #
       # Mapper instances have relatively few instance methods, in order to avoid
       # clashes with named routes.
-      class Mapper #:nodoc:
-        def initialize(set)
+      class Mapper #:doc:
+        def initialize(set) #:nodoc:
           @set = set
         end
 
         # Create an unnamed route with the provided +path+ and +options+. See
-        # SomeHelpfulUrl for an introduction to routes.
+        # ActionController::Routing for an introduction to routes.
         def connect(path, options = {})
           @set.add_route(path, options)
         end
@@ -1060,7 +1070,7 @@ module ActionController
           named_route("root", '', options)
         end
 
-        def named_route(name, path, options = {})
+        def named_route(name, path, options = {}) #:nodoc:
           @set.add_named_route(name, path, options)
         end
 
@@ -1072,8 +1082,8 @@ module ActionController
         #       :has_many => [ :tags, :images, :variants ]
         #   end
         #
-        # This will create admin_products_url pointing to "admin/products", which will look for an Admin::ProductsController.
-        # It'll also create admin_product_tags_url pointing to "admin/products/#{product_id}/tags", which will look for
+        # This will create +admin_products_url+ pointing to "admin/products", which will look for an Admin::ProductsController.
+        # It'll also create +admin_product_tags_url+ pointing to "admin/products/#{product_id}/tags", which will look for
         # Admin::TagsController.
         def namespace(name, options = {}, &block)
           if options[:namespace]
@@ -1083,8 +1093,7 @@ module ActionController
           end
         end
 
-
-        def method_missing(route_name, *args, &proc)
+        def method_missing(route_name, *args, &proc) #:nodoc:
           super unless args.length >= 1 && proc.nil?
           @set.add_named_route(route_name, *args)
         end

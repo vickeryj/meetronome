@@ -10,6 +10,10 @@ class LockWithCustomColumnWithoutDefault < ActiveRecord::Base
   set_locking_column :custom_lock_version
 end
 
+class ReadonlyFirstNamePerson < Person
+  attr_readonly :first_name
+end
+
 class OptimisticLockingTest < Test::Unit::TestCase
   fixtures :people, :legacy_things
 
@@ -60,6 +64,15 @@ class OptimisticLockingTest < Test::Unit::TestCase
 
     assert_raises(ActiveRecord::StaleObjectError) { p2.save! }
   end
+  
+  def test_lock_new_with_nil
+    p1 = Person.new(:first_name => 'anika')
+    p1.save!
+    p1.lock_version = nil # simulate bad fixture or column with no default
+    p1.save!
+    assert_equal 1, p1.lock_version
+  end
+    
 
   def test_lock_column_name_existing
     t1 = LegacyThing.find(1)
@@ -92,6 +105,18 @@ class OptimisticLockingTest < Test::Unit::TestCase
   def test_lock_with_custom_column_without_default_sets_version_to_zero
     t1 = LockWithCustomColumnWithoutDefault.new
     assert_equal 0, t1.custom_lock_version
+  end
+
+  def test_readonly_attributes
+    assert_equal Set.new([ 'first_name' ]), ReadonlyFirstNamePerson.readonly_attributes
+
+    p = ReadonlyFirstNamePerson.create(:first_name => "unchangeable name")
+    p.reload
+    assert_equal "unchangeable name", p.first_name
+
+    p.update_attributes(:first_name => "changed name")
+    p.reload
+    assert_equal "unchangeable name", p.first_name
   end
 
   { :lock_version => Person, :custom_lock_version => LegacyThing }.each do |name, model|

@@ -143,7 +143,7 @@ module ActiveRecord
   #     before_destroy 'self.class.delete_all "parent_id = #{id}"'
   #   end
   #
-  # Notice that single plings (') are used so the <tt>#{id}</tt> part isn't evaluated until the callback is triggered. Also note that these
+  # Notice that single quotes (') are used so the <tt>#{id}</tt> part isn't evaluated until the callback is triggered. Also note that these
   # inline callbacks can be stacked just like the regular ones:
   #
   #   class Topic < ActiveRecord::Base
@@ -164,7 +164,7 @@ module ActiveRecord
   # If <tt>Base#save!</tt> is called it will raise a +RecordNotSaved+ exception.
   # Nothing will be appended to the errors object.
   #
-  # == Cancelling callbacks
+  # == Canceling callbacks
   #
   # If a <tt>before_*</tt> callback returns +false+, all the later callbacks and the associated action are cancelled. If an <tt>after_*</tt> callback returns
   # +false+, all the later callbacks are cancelled. Callbacks are generally run in the order they are defined, with the exception of callbacks

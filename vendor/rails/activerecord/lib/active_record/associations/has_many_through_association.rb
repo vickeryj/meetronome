@@ -120,7 +120,7 @@ module ActiveRecord
       def count(*args)
         column_name, options = @reflection.klass.send(:construct_count_options_from_args, *args)
         if @reflection.options[:uniq]
-          # This is needed becase 'SELECT count(DISTINCT *)..' is not valid sql statement.
+          # This is needed because 'SELECT count(DISTINCT *)..' is not valid sql statement.
           column_name = "#{@reflection.klass.table_name}.#{@reflection.klass.primary_key}" if column_name == :all
           options.merge!(:distinct => true) 
         end
@@ -148,7 +148,8 @@ module ActiveRecord
             :include    => @reflection.options[:include] || @reflection.source_reflection.options[:include]
           )
 
-          @reflection.options[:uniq] ? records.to_set.to_a : records
+          records.uniq! if @reflection.options[:uniq]
+          records
         end
 
         # Construct attributes for associate pointing to owner.
@@ -235,7 +236,9 @@ module ActiveRecord
             :find   => { :from        => construct_from,
                          :conditions  => construct_conditions,
                          :joins       => construct_joins,
-                         :select      => construct_select } }
+                         :select      => construct_select,
+                         :order       => @reflection.options[:order],
+                         :limit       => @reflection.options[:limit] } }
         end
 
         def construct_sql
@@ -262,8 +265,9 @@ module ActiveRecord
           @conditions ||= [
             (interpolate_sql(@reflection.klass.send(:sanitize_sql, @reflection.options[:conditions])) if @reflection.options[:conditions]),
             (interpolate_sql(@reflection.active_record.send(:sanitize_sql, @reflection.through_reflection.options[:conditions])) if @reflection.through_reflection.options[:conditions]),
+            (interpolate_sql(@reflection.active_record.send(:sanitize_sql, @reflection.source_reflection.options[:conditions])) if @reflection.source_reflection.options[:conditions]),
             ("#{@reflection.through_reflection.table_name}.#{@reflection.through_reflection.klass.inheritance_column} = #{@reflection.klass.quote_value(@reflection.through_reflection.klass.name.demodulize)}" unless @reflection.through_reflection.klass.descends_from_active_record?)
-          ].compact.collect { |condition| "(#{condition})" }.join(' AND ') unless (!@reflection.options[:conditions] && !@reflection.through_reflection.options[:conditions] && @reflection.through_reflection.klass.descends_from_active_record?)
+          ].compact.collect { |condition| "(#{condition})" }.join(' AND ') unless (!@reflection.options[:conditions] && !@reflection.through_reflection.options[:conditions]  && !@reflection.source_reflection.options[:conditions] && @reflection.through_reflection.klass.descends_from_active_record?)
         end
 
         alias_method :sql_conditions, :conditions

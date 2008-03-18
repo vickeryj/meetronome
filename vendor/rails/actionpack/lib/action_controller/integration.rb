@@ -78,10 +78,6 @@ module ActionController
 
         unless defined? @named_routes_configured
           # install the named routes in this session instance.
-          # But we have to disable the optimisation code so that we can
-          # generate routes without @request being initialized
-          Base.optimise_named_routes=false
-          Routing::Routes.reload!
           klass = class<<self; self; end
           Routing::Routes.install_helpers(klass)
 
@@ -125,23 +121,38 @@ module ActionController
         status
       end
 
-      # Performs a GET request, following any subsequent redirect. Note that
-      # the redirects are followed until the response is not a redirect--this
-      # means you may run into an infinite loop if your redirect loops back to
-      # itself. Headers are treated in the same way as #get.
-      def get_via_redirect(path, args={}, headers = {})
-        get path, args, headers
+      # Performs a request using the specified method, following any subsequent
+      # redirect. Note that the redirects are followed until the response is
+      # not a redirect--this means you may run into an infinite loop if your
+      # redirect loops back to itself.
+      def request_via_redirect(http_method, path, parameters = nil, headers = nil)
+        send(http_method, path, parameters, headers)
         follow_redirect! while redirect?
         status
       end
 
-      # Performs a POST request, following any subsequent redirect. This is
-      # vulnerable to infinite loops, the same as #get_via_redirect. Headers are
-      # treated in the same way as #get.
-      def post_via_redirect(path, args={}, headers = {})
-        post path, args, headers
-        follow_redirect! while redirect?
-        status
+      # Performs a GET request, following any subsequent redirect.
+      # See #request_via_redirect() for more information.
+      def get_via_redirect(path, parameters = nil, headers = nil)
+        request_via_redirect(:get, path, parameters, headers)
+      end
+
+      # Performs a POST request, following any subsequent redirect.
+      # See #request_via_redirect() for more information.
+      def post_via_redirect(path, parameters = nil, headers = nil)
+        request_via_redirect(:post, path, parameters, headers)
+      end
+
+      # Performs a PUT request, following any subsequent redirect.
+      # See #request_via_redirect() for more information.
+      def put_via_redirect(path, parameters = nil, headers = nil)
+        request_via_redirect(:put, path, parameters, headers)
+      end
+
+      # Performs a DELETE request, following any subsequent redirect.
+      # See #request_via_redirect() for more information.
+      def delete_via_redirect(path, parameters = nil, headers = nil)
+        request_via_redirect(:delete, path, parameters, headers)
       end
 
       # Returns +true+ if the last response was a redirect.
@@ -191,7 +202,7 @@ module ActionController
       def xml_http_request(request_method, path, parameters = nil, headers = nil)
         headers ||= {}
         headers['X-Requested-With'] = 'XMLHttpRequest'
-        headers['Accept'] = 'text/javascript, text/html, application/xml, text/xml, */*'
+        headers['Accept'] ||= 'text/javascript, text/html, application/xml, text/xml, */*'
 
         process(request_method, path, parameters, headers)
       end
