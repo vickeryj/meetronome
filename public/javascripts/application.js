@@ -86,6 +86,8 @@ var MC = function() {
    */
   var offset = 0;
   var total = 0;
+  /* very ugly hack  with first_run */
+  var first_run = true;
   function set(total, rolling_digits) {
   	offset = total - Math.floor(total);
   	total = total - offset;
@@ -93,6 +95,10 @@ var MC = function() {
   	for (i=1; i <= CDIGITS; i++)
   	{
   		placeset(i, offset + (total % 10));
+  		if (!first_run && offset == 0) {
+  		  total = 0;
+  		  break;
+  		}
   		if (total % 10 != 9 && rolling_digits < i)
   		{
   			offset = 0;
@@ -103,6 +109,7 @@ var MC = function() {
   		}
       total = Math.floor(total/10);
   	}
+  	first_run = false;
     while (total > 0)
     {
       if ((CDIGITS +1) % 3 == 0)
@@ -139,21 +146,26 @@ var MC = function() {
   /*
    * Initialize the counter
    */
-  function init(cents_per_hour, start_time, start_amount) {
+  function init(cents_per_hour) {
     milliseconds_per_cent = 3600000/cents_per_hour;
   	rollers = Math.ceil(Math.log(40/milliseconds_per_cent)/Math.LN10);
+  	
     for (i=1; i <= CDIGITS; i++) {
       storePlaceStyle(i);
     }
-  	intervalId = setInterval("MC.roll(" + String(cents_per_hour) +", "+String(start_time) + ", " + String(start_amount) + ");", 40);
   }
+  
+  function start(start_time, start_amount) {
+    intervalId = setInterval("MC.roll(" + String(start_time) + ", " + String(start_amount) + ");", 40);
+  }
+  
 
   /*
    * can add start amount to this to allow ajax syncing
    * TODO: need a sync method that cancels the current interval and starts
    * a new one (use intervalId to cancel)
    */
-  function roll(cents_per_hour, start_time, start_amount) {
+  function roll(start_time, start_amount) {
   	duration = new Date().getTime() - start_time;
   	cents = duration/milliseconds_per_cent + start_amount;
     set(cents, rollers );
@@ -166,7 +178,8 @@ var MC = function() {
           do_send : do_send,
           check_wage_type : check_wage_type,
           inc_totals_at_rate : inc_totals_at_rate,
-          init :init}
+          init :init,
+          start:start}
   
 }();
 
