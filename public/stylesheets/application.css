@@ -146,6 +146,11 @@ div.inputcontainer {
 #raw {
 	font-size: 36px;
 }
+#current_cost {
+  border: 1px solid #be5843;
+  height: 36px;
+	
+}
 
 .numeral {
 	width: 36px;
@@ -156,12 +161,12 @@ div.inputcontainer {
 }
 #currency_sign{
 	font-size: 36px;
-  vertical-align: top;
   float: left;
+  
 }
 
 #current_cost {
-  padding-top: 7px;
+  margin-top: 7px;
 }
 
 .decimal {
@@ -182,7 +187,7 @@ div.inputcontainer {
 
 
 a.button {
-    background: transparent url('/images/smaller_buttons_r.png') no-repeat scroll top right;
+    background: transparent url('/images/smaller_buttonsred_r.png') no-repeat scroll top right;
     color: #444;
     display: block;
     float: left;
@@ -196,7 +201,7 @@ a.button {
 
 
 a.button span {
-    background: transparent url('/images/smaller_buttons_l.png') no-repeat;
+    background: transparent url('/images/smaller_buttonsred_l.png') no-repeat;
     display: block;
     line-height: 16px;
     padding: 7px 0px 9px 13px;

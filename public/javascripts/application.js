@@ -86,8 +86,6 @@ var MC = function() {
    */
   var offset = 0;
   var total = 0;
-  /* very ugly hack  with first_run */
-  var first_run = true;
   function set(total, rolling_digits) {
   	offset = total - Math.floor(total);
   	total = total - offset;
@@ -95,10 +93,7 @@ var MC = function() {
   	for (i=1; i <= CDIGITS; i++)
   	{
   		placeset(i, offset + (total % 10));
-  		if (!first_run && offset == 0) {
-  		  total = 0;
-  		  break;
-  		}
+  		
   		if (total % 10 != 9 && rolling_digits < i)
   		{
   			offset = 0;
@@ -109,7 +104,6 @@ var MC = function() {
   		}
       total = Math.floor(total/10);
   	}
-  	first_run = false;
     while (total > 0)
     {
       if ((CDIGITS +1) % 3 == 0)
