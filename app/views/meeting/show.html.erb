@@ -18,11 +18,11 @@
     <div id="notes"><%= render :partial => 'notes' %></div>
 
     <% if @meeting.running? %>
-    <div id="note_form_wrapper">
+    <div id="note_form_wrapper" class="clear">
     <% form_tag(meeting_notes_url(@meeting), :id => "note_form", :method => :post) do %>
-    What is happening now?<br/>
+    Track whats happening now!<br/>
       <%= text_field "note", "descr", :size => 20  %>
-        <%= link_to_function "Track it!", "$('note_form').submit(0)" -%>
+        <%= meet_link_to_function "Track", "$('note_form').submit(0)" -%>
     
     <% end %>
     </div>

@@ -146,11 +146,6 @@ div.inputcontainer {
 #raw {
 	font-size: 36px;
 }
-#current_cost {
-  border: 1px solid #be5843;
-  height: 36px;
-	
-}
 
 .numeral {
 	width: 36px;
@@ -271,5 +266,6 @@ div.slider div {
   top:0px;
 } 
 
-#note_form{
+#note_form_wrapper {
+  padding:.5em;
 }
