@@ -80,6 +80,10 @@ ul.horizontal li {
   font-size: .9em;
 }
 
+#header a img {
+  border: 0px;
+}
+
 #content {
   background-image: url(/images/middle.png);
   background-repeat: repeat-y;
