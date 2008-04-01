@@ -11,7 +11,9 @@ class MeetingController < ApplicationController
   end
 
   def create
-    @meeting = Meeting.new(params[:meeting])
+    meeting_params = params[:meeting].merge(
+      {:user_id => (current_user ? current_user.id : nil)})
+    @meeting = Meeting.new(meeting_params)
     logger.debug(params.to_s)
     if (@meeting.save)
       @meeting.start
