@@ -1,7 +1,6 @@
 module ActiveRecord
   module Associations
     class AssociationProxy #:nodoc:
-      attr_reader :reflection
       alias_method :proxy_respond_to?, :respond_to?
       alias_method :proxy_extend, :extend
       delegate :to_param, :to => :proxy_target
@@ -115,14 +114,23 @@ module ActiveRecord
             :offset  => @reflection.options[:offset],
             :joins   => @reflection.options[:joins],
             :include => @reflection.options[:include],
-            :select  => @reflection.options[:select]
+            :select  => @reflection.options[:select],
+            :readonly  => @reflection.options[:readonly]
           )
         end
 
+        def with_scope(*args, &block)
+          @reflection.klass.send :with_scope, *args, &block
+        end
+          
       private
-        def method_missing(method, *args, &block)
+        def method_missing(method, *args)
           if load_target
-            @target.send(method, *args, &block)
+            if block_given?
+              @target.send(method, *args)  { |*block_args| yield(*block_args) }
+            else
+              @target.send(method, *args)
+            end
           end
         end
 

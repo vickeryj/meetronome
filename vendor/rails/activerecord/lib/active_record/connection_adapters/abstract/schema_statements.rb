@@ -89,7 +89,7 @@ module ActiveRecord
       # See also TableDefinition#column for details on how to create columns.
       def create_table(table_name, options = {})
         table_definition = TableDefinition.new(self)
-        table_definition.primary_key(options[:primary_key] || "id") unless options[:id] == false
+        table_definition.primary_key(options[:primary_key] || Base.get_primary_key(table_name)) unless options[:id] == false
 
         yield table_definition
 
@@ -232,12 +232,20 @@ module ActiveRecord
 
       # Should not be called normally, but this operation is non-destructive.
       # The migrations module handles this automatically.
-      def initialize_schema_information
+      def initialize_schema_information(current_version=0)
         begin
-          execute "CREATE TABLE #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)} (version #{type_to_sql(:integer)})"
-          execute "INSERT INTO #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)} (version) VALUES(0)"
+          execute "CREATE TABLE #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)} (version #{type_to_sql(:string)})"
+          execute "INSERT INTO #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)} (version) VALUES(#{current_version})"
         rescue ActiveRecord::StatementInvalid
-          # Schema has been initialized
+          # Schema has been initialized, make sure version is a string
+          version_column = columns(:schema_info).detect { |c| c.name == "version" }
+          
+          # can't just alter the table, since SQLite can't deal
+          unless version_column.type == :string
+            version = ActiveRecord::Migrator.current_version
+            execute "DROP TABLE #{quote_table_name(ActiveRecord::Migrator.schema_info_table_name)}"
+            initialize_schema_information(version)
+          end
         end
       end
 
@@ -255,26 +263,27 @@ module ActiveRecord
       def type_to_sql(type, limit = nil, precision = nil, scale = nil) #:nodoc:
         if native = native_database_types[type]
           column_type_sql = native.is_a?(Hash) ? native[:name] : native
+
           if type == :decimal # ignore limit, use precision and scale
-            precision ||= native[:precision]
             scale ||= native[:scale]
-            if precision
+
+            if precision ||= native[:precision]
               if scale
                 column_type_sql << "(#{precision},#{scale})"
               else
                 column_type_sql << "(#{precision})"
               end
-            else
-              raise ArgumentError, "Error adding decimal column: precision cannot be empty if scale if specified" if scale
+            elsif scale
+              raise ArgumentError, "Error adding decimal column: precision cannot be empty if scale if specified"
             end
-            column_type_sql
-          else
-            limit ||= native[:limit]
-            column_type_sql << "(#{limit})" if limit
-            column_type_sql
+
+          elsif limit ||= native.is_a?(Hash) && native[:limit]
+            column_type_sql << "(#{limit})"
           end
+
+          column_type_sql
         else
-          column_type_sql = type
+          type
         end
       end
 
@@ -297,6 +306,22 @@ module ActiveRecord
         sql << " ORDER BY #{options[:order]}"
       end
 
+      # Adds timestamps (created_at and updated_at) columns to the named table.
+      # ===== Examples
+      #  add_timestamps(:suppliers)
+      def add_timestamps(table_name)
+        add_column table_name, :created_at, :datetime
+        add_column table_name, :updated_at, :datetime    
+      end
+      
+      # Removes the timestamp columns (created_at and updated_at) from the table definition.
+      # ===== Examples
+      #  remove_timestamps(:suppliers)
+      def remove_timestamps(table_name)
+        remove_column table_name, :updated_at   
+        remove_column table_name, :created_at       
+      end
+      
       protected
         def options_include_default?(options)
           options.include?(:default) && !(options[:null] == false && options[:default].nil?)

@@ -5,6 +5,7 @@ require 'action_controller/routing'
 require 'action_controller/resources'
 require 'action_controller/url_rewriter'
 require 'action_controller/status_codes'
+require 'action_view'
 require 'drb'
 require 'set'
 
@@ -328,9 +329,6 @@ module ActionController #:nodoc:
     # Can be set to nil for no logging. Compatible with both Ruby's own Logger and Log4r loggers.
     cattr_accessor :logger
 
-    # Determines which template class should be used by ActionController.
-    cattr_accessor :template_class
-
     # Turn on +ignore_missing_templates+ if you want to unit test actions without making the associated templates.
     cattr_accessor :ignore_missing_templates
 
@@ -428,6 +426,7 @@ module ActionController #:nodoc:
 
       def view_paths=(value)
         @view_paths = value
+        ActionView::TemplateFinder.process_view_paths(value)
       end
 
       # Adds a view_path to the front of the view_paths array.
@@ -440,6 +439,7 @@ module ActionController #:nodoc:
       def prepend_view_path(path)
         @view_paths = superclass.view_paths.dup if @view_paths.nil?
         view_paths.unshift(*path)
+        ActionView::TemplateFinder.process_view_paths(path)
       end
       
       # Adds a view_path to the end of the view_paths array.
@@ -452,6 +452,7 @@ module ActionController #:nodoc:
       def append_view_path(path)
         @view_paths = superclass.view_paths.dup if @view_paths.nil?
         view_paths.push(*path)
+        ActionView::TemplateFinder.process_view_paths(path)
       end
       
       # Replace sensitive parameter data from the request log.
@@ -642,11 +643,11 @@ module ActionController #:nodoc:
       
       # View load paths for controller.
       def view_paths
-        (@template || self.class).view_paths
+        @template.finder.view_paths
       end
     
       def view_paths=(value)
-        (@template || self.class).view_paths = value
+        @template.finder.view_paths = value  # Mutex needed
       end
 
       # Adds a view_path to the front of the view_paths array.
@@ -656,7 +657,7 @@ module ActionController #:nodoc:
       #   self.prepend_view_path(["views/default", "views/custom"])
       #
       def prepend_view_path(path)
-        (@template || self.class).prepend_view_path(path)
+        @template.finder.prepend_view_path(path)  # Mutex needed
       end
       
       # Adds a view_path to the end of the view_paths array.
@@ -666,7 +667,7 @@ module ActionController #:nodoc:
       #   self.append_view_path(["views/default", "views/custom"])
       #
       def append_view_path(path)
-        (@template || self.class).append_view_path(path)
+        @template.finder.append_view_path(path)  # Mutex needed
       end
 
     protected
@@ -829,16 +830,18 @@ module ActionController #:nodoc:
       # All renders take the :status and :location options and turn them into headers. They can even be used together:
       #
       #   render :xml => post.to_xml, :status => :created, :location => post_url(post)
-      def render(options = nil, &block) #:doc:
+      def render(options = nil, extra_options = {}, &block) #:doc:
         raise DoubleRenderError, "Can only render or redirect once per action" if performed?
 
         if options.nil?
           return render_for_file(default_template_name, nil, true)
+        elsif !extra_options.is_a?(Hash)
+          raise RenderError, "You called render with invalid options : #{options.inspect}, #{extra_options.inspect}"
         else
           if options == :update
-            options = { :update => true }
+            options = extra_options.merge({ :update => true })
           elsif !options.is_a?(Hash)
-            raise RenderError, "You called render with invalid options : #{options}"
+            raise RenderError, "You called render with invalid options : #{options.inspect}"
           end
         end
 
@@ -850,8 +853,8 @@ module ActionController #:nodoc:
           response.headers["Location"] = url_for(location)
         end
 
-        if text = options[:text]
-          render_for_text(text, options[:status])
+        if options.has_key?(:text)
+          render_for_text(options[:text], options[:status])
 
         else
           if file = options[:file]
@@ -862,7 +865,8 @@ module ActionController #:nodoc:
 
           elsif inline = options[:inline]
             add_variables_to_assigns
-            render_for_text(@template.render_template(options[:type], inline, nil, options[:locals] || {}), options[:status])
+            tmpl = ActionView::Template.new(@template, options[:inline], false, options[:locals], true, options[:type])
+            render_for_text(@template.render_template(tmpl), options[:status])
 
           elsif action_name = options[:action]
             template = default_template_name(action_name.to_s)
@@ -904,7 +908,7 @@ module ActionController #:nodoc:
 
             generator = ActionView::Helpers::PrototypeHelper::JavaScriptGenerator.new(@template, &block)
             response.content_type = Mime::JS
-            render_for_text(generator.to_s)
+            render_for_text(generator.to_s, options[:status])
 
           elsif options[:nothing]
             # Safari doesn't pass the headers of the return if the response is zero length
@@ -1029,7 +1033,8 @@ module ActionController #:nodoc:
       # RedirectBackError will be raised. You may specify some fallback
       # behavior for this case by rescuing RedirectBackError.
       def redirect_to(options = {}, response_status = {}) #:doc: 
-        
+        raise ActionControllerError.new("Cannot redirect to nil!") if options.nil?
+
         if options.is_a?(Hash) && options[:status] 
           status = options.delete(:status) 
         elsif response_status[:status] 
@@ -1114,11 +1119,7 @@ module ActionController #:nodoc:
       end
       
       def initialize_template_class(response)
-        unless @@template_class
-          raise "You must assign a template class through ActionController.template_class= before processing a request"
-        end
-
-        response.template = ActionView::Base.new(view_paths, {}, self)
+        response.template = ActionView::Base.new(self.class.view_paths, {}, self)
         response.template.extend self.class.master_helper_module
         response.redirected_to = nil
         @performed_render = @performed_redirect = false
@@ -1210,14 +1211,14 @@ module ActionController #:nodoc:
 
       def add_instance_variables_to_assigns
         @@protected_variables_cache ||= Set.new(protected_instance_variables)
-        instance_variables.each do |var|
+        instance_variable_names.each do |var|
           next if @@protected_variables_cache.include?(var)
           @assigns[var[1..-1]] = instance_variable_get(var)
         end
       end
 
       def add_class_variables_to_assigns
-        %w(view_paths logger template_class ignore_missing_templates).each do |cvar|
+        %w(view_paths logger ignore_missing_templates).each do |cvar|
           @assigns[cvar] = self.send(cvar)
         end
       end
@@ -1248,7 +1249,7 @@ module ActionController #:nodoc:
       end
 
       def template_exists?(template_name = default_template_name)
-        @template.file_exists?(template_name)
+        @template.finder.file_exists?(template_name)
       end
 
       def template_public?(template_name = default_template_name)
@@ -1256,7 +1257,7 @@ module ActionController #:nodoc:
       end
 
       def template_exempt_from_layout?(template_name = default_template_name)
-        extension = @template && @template.pick_template_extension(template_name)
+        extension = @template && @template.finder.pick_template_extension(template_name)
         name_with_extension = !template_name.include?('.') && extension ? "#{template_name}.#{extension}" : template_name
         @@exempt_from_layout.any? { |ext| name_with_extension =~ ext }
       end
