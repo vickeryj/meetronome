@@ -20,7 +20,7 @@
     <% if @meeting.running? %>
     <div id="note_form_wrapper" class="clear">
     <% form_tag(meeting_notes_url(@meeting), :id => "note_form", :method => :post) do %>
-    Track whats happening now!<br/>
+    Track what's happening now!<br/>
       <%= text_field "note", "descr", :size => 20  %>
         <%= meet_link_to_function "Track", "$('note_form').submit(0)" -%>
     
