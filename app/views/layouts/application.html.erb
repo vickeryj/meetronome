@@ -11,7 +11,7 @@
 <body>
   <!-- there is a stupid IE bug that requires the image and the div all to be on one line, if there
   is a carriage return between then, IE6 will display a gap after the image -->
-  <div id="header"><%= link_to(image_tag("header.png"),'/') %></div>
+  <div id="header"><%= link_to(image_tag("headerred.png"),'/') %></div>
   <div id="content">
     <div class="clear" id="user_menu" >
       <%= meet_link_to("Login", {:controller => 'account', :action => 'login'}) unless logged_in? -%>
