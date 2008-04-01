@@ -2,9 +2,13 @@
 <div id="main_box">
   <h3>Get Started!</h3>
   <ul class="horizontal">
-    <li><%= link_to "Signup", {:controller => 'account', :action => 'login'} %></li>
-    <li>::</li>
-    <li><%= link_to "Login", {:controller => 'account', :action => 'signup'}%></li>
+    <% if logged_in? -%>
+      <li><%= link_to "My Meetings", meetings_url %></li>
+    <% else -%>
+      <li><%= link_to "Signup", {:controller => 'account', :action => 'login'} %></li>
+      <li>::</li>
+      <li><%= link_to "Login", {:controller => 'account', :action => 'signup'}%></li>
+    <% end -%>
     <li>::</li>
     <li><%= link_to "Start a meeting", new_meeting_url %></li>
   </ul>

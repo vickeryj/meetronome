@@ -1,5 +1,4 @@
 # == Schema Information
-# Schema version: 8
 #
 # Table name: alt_widgets
 #
@@ -10,6 +9,7 @@
 #  last_used_at :datetime      
 #  views        :integer(11)   
 #  data         :text          
+#  type         :string(255)   
 #
 
 --- 

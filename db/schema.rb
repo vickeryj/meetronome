@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 10) do
+ActiveRecord::Schema.define(:version => 11) do
 
   create_table "alt_widgets", :force => true do |t|
     t.string   "name"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 10) do
     t.integer "attendance"
     t.string  "owner_cookie"
     t.string  "token"
+    t.integer "user_id"
   end
 
   create_table "notes", :force => true do |t|

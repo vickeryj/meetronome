@@ -1,5 +1,4 @@
 # == Schema Information
-# Schema version: 8
 #
 # Table name: meetings
 #
@@ -9,6 +8,8 @@
 #  currency       :string(255)   
 #  attendance     :integer(11)   
 #  owner_cookie   :string(255)   
+#  token          :string(255)   
+#  user_id        :integer(11)   
 #
 
 valid_meeting:

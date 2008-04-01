@@ -4,7 +4,6 @@ class MeetingController < ApplicationController
     @meeting = Meeting.new()
   end
 
-
   def create
     @meeting = Meeting.new(params[:meeting])
     logger.debug(params.to_s)

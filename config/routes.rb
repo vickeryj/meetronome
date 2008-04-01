@@ -23,11 +23,11 @@ ActionController::Routing::Routes.draw do |map|
       :member => {:addNote => :post, :stop => :post, :update_notes => :get } do |meeting|
     meeting.resource :alt_widget, :controller => "alt_widget"    
     meeting.resources :notes, :controller => 'note', :member => {:stop => :any}
+    map.resources :welcome
   end
   
   
-  #this is terrible and needs to be fixed.  the meeting controller has ugly method names
-  map.connect '', :controller => 'meeting', :action => 'index'
+  map.connect '', :controller => 'welcome', :action => 'index'
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
 end

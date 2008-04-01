@@ -1,5 +1,4 @@
 # == Schema Information
-# Schema version: 8
 #
 # Table name: invites
 #
