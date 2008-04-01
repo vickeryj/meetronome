@@ -1,5 +1,11 @@
 class MeetingController < ApplicationController
 
+  before_filter :login_required, :only => "index"
+
+  def index
+    @meetings = current_user.meetings
+  end
+
   def new
     @meeting = Meeting.new()
   end

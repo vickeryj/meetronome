@@ -1,0 +1,8 @@
+<h2>Meetings You've Attended</h2>
+<div id="main_box">
+  <ul>
+    <% @meetings.each do |meeting| -%>
+      <li><%= meeting.name %>
+    <% end -%>
+  </ul>
+</div>
