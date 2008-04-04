@@ -109,8 +109,14 @@ ul.horizontal li {
   padding-bottom: 10px;
 }
 
-#footer {
-  width: 810px;
+#header, #content, #footer {
+  margin-left: auto;
+  margin-right: auto;
+  width: 830px;
+}
+
+
+#footer #footer_text {
   font-size: .8em;
   font-family: Verdana, sans;
   text-align: right;
