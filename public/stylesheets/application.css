@@ -38,11 +38,20 @@ h3 {
 }
 
 input {
-  border: 1px solid #be5843;
+  border: 1px inset #be5843;
   background: white;
-  padding-left: 3px;
+  padding: 0px 0px 0px 3px;
   color: #551f00;
   margin: 5px;
+  width: 320px;
+  font-size: 1.05em;
+}
+
+input.radio {
+  width: auto;
+  border: none;
+  background: none;
+  outline: none; /* hide dotted outline in Firefox */
 }
 
 a {
@@ -59,7 +68,7 @@ p {
 
 fieldset {
   color: #551f00;
-  border: 1px solid #551f00;
+  border: 1px outset #551f00;
   margin-bottom: 10px;
   width: 330px;
   padding: 10px;
@@ -67,7 +76,7 @@ fieldset {
 }
 
 legend {
-  font-size: 1em;
+  font-size: 1.1em;
   color: #551f00;
 }
 
@@ -193,7 +202,7 @@ a.button {
     color: #444;
     display: block;
     float: left;
-    font: italic 16px Georgia, serif;
+    font: italic bold 16px Georgia, serif;
     color: white;
     height: 32px;
     margin-right: 3px;
@@ -231,7 +240,7 @@ div.slider {
   margin-bottom:10px;
   margin-top:5px;
   position:relative;
-  width:150px;
+  width:329px;
 }
 
 div.slider div {
