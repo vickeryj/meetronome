@@ -2,7 +2,7 @@
 <div id="main_box">
   <ul>
     <% @meetings.each do |meeting| -%>
-      <li><%= link_to meeting.name, meeting_url(meeting) %>
+      <li><%= link_to meeting.name, meeting_url(meeting) %></li>
     <% end -%>
   </ul>
 </div>

@@ -97,6 +97,10 @@ ul.horizontal li {
   outline: none; /* hide dotted outline in Firefox */
 }
 
+#header {
+  height: 126px;
+}
+
 #content {
   background-image: url(/images/middle.png);
   background-repeat: repeat-y;

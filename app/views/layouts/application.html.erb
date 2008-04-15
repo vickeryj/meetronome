@@ -1,7 +1,10 @@
-<html>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-  <title><%= yield :title %></title>
+  <title>Meetronome<%= yield :title %></title>
   <%= stylesheet_link_tag("application") %>
   <%= javascript_include_tag(:defaults) %>
   <link rel="shortcut icon" href="/images//favicon.ico" type="image/vnd.microsoft.icon"/>
@@ -11,7 +14,7 @@
 <body>
   <!-- there is a stupid IE bug that requires the image and the div all to be on one line, if there
   is a carriage return between then, IE6 will display a gap after the image -->
-  <div id="header"><%= link_to(image_tag("headerred.png"),'/') %></div>
+  <div id="header"><%= link_to(image_tag("headerred.png"),'/') -%></div>
   <div id="content">
     <div class="clear" id="user_menu" >
       <%= meet_link_to("Login", {:controller => 'account', :action => 'login'}) unless logged_in? -%>
@@ -25,3 +28,4 @@
     <div id="footer_text">Meetronome is brought to you by Paul Damer and Josh Vickery</div>
   </div>
 </body>
+</html>

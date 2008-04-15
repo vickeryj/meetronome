@@ -3,7 +3,7 @@
 <% form_for :user do |f| -%>
 <div class="inputcontainer">
   <fieldset>
-  <legend><label for="login">Login</label></legend>
+  <legend><label for="user_login">Login</label></legend>
     <%= f.text_field :login %>
     <%= error_message_on "user", "login" %>
   </fieldset>
@@ -11,7 +11,7 @@
 
 <div class="inputcontainer">
   <fieldset>
-  <legend><label for="email">Email</label></legend>
+  <legend><label for="user_email">Email</label></legend>
    <%= f.text_field :email %>
    <%= error_message_on "user", "email" %>
   </fieldset>
@@ -19,7 +19,7 @@
 
 <div class="inputcontainer">
   <fieldset>
-  <legend><label for="password">Password</label></legend>
+  <legend><label for="user_password">Password</label></legend>
    <%= f.password_field :password %>
    <%= error_message_on "user", "password" %>
   </fieldset>
@@ -28,7 +28,7 @@
 
 <div class="inputcontainer">
   <fieldset>
-  <legend><label for="password_confirmation">Confirm Password</label></legend>
+  <legend><label for="user_password_confirmation">Confirm Password</label></legend>
    <%= f.password_field :password_confirmation %>
   </fieldset>
 </div>

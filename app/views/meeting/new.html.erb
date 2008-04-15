@@ -2,7 +2,7 @@
 <%= error_messages_for 'meeting' %>
 <div id="main_box">
   <h3>Describe your meeting</h3>
-  <% form_for @meeting, :html => {:id => "costcalc", :autocomplete => "off"} do -%>
+  <% form_for @meeting, :html => {:id => "costcalc"} do -%>
   <div id="left_form">
     <div class="inputcontainer">
       <fieldset>
@@ -24,8 +24,8 @@
     <div class="inputcontainer">
       <fieldset>
         <legend>How much does each person earn?</legend>
-        <input type="radio" name="wage_type" id="wage_type_annual" class="radio" value="annual" checked onChange='$("salary").value = MC.check_wage_type(track2.value)'/><label for="wage_type_annual">per year</label>
-        <input type="radio" name="wage_type" id="wage_type_hourly" class="radio" value="hourly" onChange='$("salary").value = MC.check_wage_type(track2.value)'/><label for="wage_type_hourly">per hour</label>
+        <input type="radio" name="wage_type" id="wage_type_annual" class="radio" value="annual" checked="checked" onchange='$("salary").value = MC.check_wage_type(track2.value)' /><label for="wage_type_annual">per year</label>
+        <input type="radio" name="wage_type" id="wage_type_hourly" class="radio" value="hourly" onchange='$("salary").value = MC.check_wage_type(track2.value)' /><label for="wage_type_hourly">per hour</label>
 
         <div id='track2' class='slider'>
           <div><%= image_tag("slider-handle.png")%></div>
@@ -34,10 +34,10 @@
       </fieldset>
     </div>
 
-    <input type="hidden" id="costperhour" value="25.00">
+    <input type="hidden" id="costperhour" value="25.00"/>
     <%= hidden_field :meeting, :cents_per_hour %>
-    <input type="hidden" id="track1value">
-    <input type="hidden" id="track2value">
+    <input type="hidden" id="track1value"/>
+    <input type="hidden" id="track2value"/>
     <%= slider_element 'track1', :minimum => 1, :maximum => 20,  :increment => 3, :values => "[#{(1..20).to_a.join(', ')}]", :slide => '$("track1value").value = value; $("meeting_attendance").value = value; $("costperhour").value = MC.calc()', :range => 1..20, :sliderValue => 1 %>
     <%= javascript_tag("observeSliderTextField($('meeting_attendance'),track1)") %>
     <%= slider_element 'track2', :minimum => 10000, :maximum => 500000,  :increment => 3, :values => (2..100).inject([]){|a,i|a << i*5000}.inspect, :slide => '$("track2value").value = value; $("salary").value = MC.check_wage_type(value); $("costperhour").value = MC.calc()', :range => 10000..500000, :sliderValue => 50000 %>
