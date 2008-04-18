@@ -15,5 +15,5 @@ widget_classes = Object.subclasses_of(AltWidget)
 
 #make sure they have instances in the database.
 widget_classes.each do |klass|
-  klass.find_or_create_by_name(klass.to_s)
+  klass.find_or_create_by_name(klass.to_s) rescue '' #swallow errors
 end
