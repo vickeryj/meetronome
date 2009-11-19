@@ -8,6 +8,24 @@ function number_str (n) {
   return res;
 }
 
+//hmm accessing all these elements by id makes them less useful?
+//Should we pass elements as parameters?
+function calc() {
+  var cost = $('people').value * $('salary').value;
+  if ($('wage_type_annual').checked)
+  {
+    cost = cost/(50*40);
+  }
+  return cost.toFixed(2);
+}
+
+function check_wage_type(amount) {
+  if (!$("wage_type_annual").checked)
+  {
+    amount = amount/(50*40);
+  }
+  return parseFloat(amount).toFixed(2);
+}
 
 function inc_totals_at_rate(rate, inc) {
   curamount += inc;
